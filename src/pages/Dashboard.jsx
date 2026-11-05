@@ -233,7 +233,7 @@ function PurchaseHistory({ rows, deviceLabel }) {
   const columns = [
     { key: 'sn', label: 'SN' },
     { key: 'ref', label: 'Payment Ref' },
-    { key: 'description', label: 'Description' },
+    { key: 'description', label: 'Description', primary: true },
     { key: 'amount', label: 'Amount', render: (r) => naira(r.amount).replace(',', '') },
     { key: 'date', label: 'Purchase Date', render: (r) => r.date.replace(' | ', '  |  ') },
     { key: 'method', label: 'Payment Method' },

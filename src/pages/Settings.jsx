@@ -17,7 +17,7 @@ export default function Settings() {
   const tab = TABS.some(([k]) => k === params.get('tab')) ? params.get('tab') : 'security'
   return (
     <>
-      <TopBar title={`Hello ${USER.firstName}, Welcome!`} />
+      <TopBar title={`Hello ${USER.firstName}, Welcome!`} mobileTitle="Settings" />
       <div className="page">
         <h2 className="page-title">Settings</h2>
         <div className="tabs-bar" role="tablist">

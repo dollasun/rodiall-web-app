@@ -16,8 +16,8 @@ export function MtnLogo({ width = 78 }) {
 export function RodiallLogo({ height = 30, color = '#1e1b4b' }) {
   return (
     <svg height={height} viewBox="0 0 132 34" aria-label="Rodiall" role="img">
-      <circle cx="16" cy="16" r="11.5" fill="none" stroke={color} strokeWidth="6.5" />
-      <path d="M22 22 L29 29" stroke={color} strokeWidth="6.5" strokeLinecap="round" />
+      <circle className="rd-ring" cx="16" cy="16" r="11.5" fill="none" style={{ stroke: `var(--rd-ring, ${color})` }} strokeWidth="6.5" />
+      <path className="rd-ring" d="M22 22 L29 29" style={{ stroke: `var(--rd-ring, ${color})` }} strokeWidth="6.5" strokeLinecap="round" />
       <path d="M12.3 22.6 a3.4 3.4 0 0 1 4.6 0" fill="none" stroke={color} strokeWidth="1.3" strokeLinecap="round" />
       <path d="M10.6 20.6 a6 6 0 0 1 8 0" fill="none" stroke={color} strokeWidth="1.3" strokeLinecap="round" />
       <circle cx="14.6" cy="24.6" r="1.1" fill={color} />

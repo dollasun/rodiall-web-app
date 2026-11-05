@@ -25,7 +25,7 @@ export default function DemoSwitcher() {
       <button ref={ref} className="demo-pill" onClick={toggle} aria-expanded={open} aria-label="Switch preview scenario">
         <FlaskConical size={14} />
         <span className="d-dot" style={{ background: current.color }} />
-        {current.label}
+        <span className="d-label">{current.label}</span>
       </button>
       <Popover anchorRef={ref} open={open} onClose={close} align="left" className="demo-panel">
         <div className="demo-head">

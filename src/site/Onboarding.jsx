@@ -116,7 +116,8 @@ export default function Onboarding() {
           </div>
 
           <button className="rd-btn rd-btn-primary rd-proceed" disabled={!complete} onClick={() => setModalOpen(true)}>
-            Proceed
+            <span className="t-desk">Proceed</span>
+            <span className="t-mob">See my device</span>
           </button>
           <p className="rd-caption">{complete ? 'Great — tap proceed to see your device' : 'Answer both questions to proceed to your device'}</p>
         </section>
@@ -277,15 +278,15 @@ function DeviceModal({ open, device, deviceIdx, onClose, onReserved }) {
               ))}
             </div>
 
-            <label className="rd-label" htmlFor="rd-address">Where do you live?</label>
+            <label className="rd-label" htmlFor="rd-address">Where do you live? <span className="rd-req">*</span></label>
             <div className="rd-input">
               <MapPin size={14} />
               <input id="rd-address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter home address, eg: 14, Ntinda Road, Kampala" autoComplete="street-address" />
             </div>
 
-            <p className="rd-label">How do you hope to get device?</p>
-            <div className="rd-methods" role="radiogroup" aria-label="How do you hope to get device?">
-              <button role="radio" aria-checked={method === 'pickup'} className={`rd-method ${method === 'pickup' ? 'selected' : ''}`} onClick={() => setMethod('pickup')}>
+            <p className="rd-label" id="rd-method-label">How do you hope to get device? <span className="rd-req">*</span></p>
+            <div className={`rd-methods m-${method}`}>
+              <button role="radio" aria-checked={method === 'pickup'} className={`rd-method pick ${method === 'pickup' ? 'selected' : ''}`} onClick={() => setMethod('pickup')}>
                 <strong>
                   <Store size={14} /> Pick up at store
                 </strong>
@@ -295,7 +296,7 @@ function DeviceModal({ open, device, deviceIdx, onClose, onReserved }) {
                 role="radio"
                 aria-checked={method === 'delivery'}
                 aria-disabled={!deliveryOK}
-                className={`rd-method ${method === 'delivery' ? 'selected' : ''} ${!deliveryOK ? 'disabled' : ''}`}
+                className={`rd-method deliv ${method === 'delivery' ? 'selected' : ''} ${!deliveryOK ? 'disabled' : ''}`}
                 onClick={() => (deliveryOK ? setMethod('delivery') : setSoonOpen(true))}
               >
                 <strong>
@@ -304,7 +305,7 @@ function DeviceModal({ open, device, deviceIdx, onClose, onReserved }) {
                 </strong>
                 <span>An agent delivers device and activates it.</span>
               </button>
-            </div>
+
 
             {method === 'pickup' && (hasAddress || locating) && (
               <div className="rd-store fade-in">
@@ -364,6 +365,7 @@ function DeviceModal({ open, device, deviceIdx, onClose, onReserved }) {
                 </div>
               </div>
             )}
+            </div>
 
             <label className="rd-check">
               <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />

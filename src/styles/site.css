@@ -194,7 +194,7 @@
   .rd-right { order: -1; }
   .rd-device-grid { grid-template-columns: 1fr; }
   .rd-gallery { min-height: 360px; }
-  .rd-gallery svg { height: 280px; width: auto; }
+  .rd-gallery-img svg { height: 280px; width: auto; }
 }
 @media (max-width: 560px) {
   .rd-container { padding: 0 16px; }

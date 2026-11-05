@@ -66,7 +66,7 @@ export default function Notifications() {
   const list = filter === 'unread' ? notifications.filter((n) => !n.read) : notifications
   return (
     <>
-      <TopBar title={`Hello ${USER.firstName}, Welcome!`} />
+      <TopBar title={`Hello ${USER.firstName}, Welcome!`} mobileTitle="Notifications" />
       <div className="page">
         <h2 className="page-title">Notifications</h2>
         <div className="tabs-bar">

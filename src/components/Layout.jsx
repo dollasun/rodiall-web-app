@@ -32,6 +32,7 @@ export function AppLayout() {
       <main className="main">
         <Outlet context={{ openMenu: () => setMenuOpen(true), openLogout: () => setLogoutOpen(true) }} />
       </main>
+      <BottomNav />
       <LogoutModal open={logoutOpen} onClose={() => setLogoutOpen(false)} />
     </div>
   )
@@ -77,8 +78,35 @@ function Sidebar({ open, onClose, onLogout }) {
   )
 }
 
-/** Variant A: title + "Last Login" (Dashboard, Purchase History, Settings, Notifications) */
-export function TopBar({ title, variant = 'login' }) {
+/** Native-style bottom tab bar (phones only, via CSS) */
+const TABS = [
+  { to: '/dashboard', label: 'Home', icon: ChartLine },
+  { to: '/repay-plus', label: 'Repay+', icon: ChartColumn },
+  { to: '/purchase-history', label: 'History', icon: Tag },
+  { to: '/storage', label: 'Storage', icon: Database },
+  { to: '/settings', label: 'Settings', icon: Settings },
+]
+function BottomNav() {
+  return (
+    <nav className="bottom-nav" aria-label="Primary">
+      {TABS.map(({ to, label, icon: Icon }) => (
+        <NavLink key={to} to={to} className={({ isActive }) => `bn-item ${isActive ? 'active' : ''}`}>
+          <span className="bn-icon">
+            <Icon size={20} strokeWidth={1.8} />
+          </span>
+          <span className="bn-label">{label}</span>
+        </NavLink>
+      ))}
+    </nav>
+  )
+}
+
+/**
+ * Variant A: title + "Last Login" (Dashboard, Purchase History, Settings, Notifications)
+ * Variant B: title + bell + profile (Repay+ Plus, Storage)
+ * On phones every variant shows `mobileTitle` with bell + avatar, like a native app bar.
+ */
+export function TopBar({ title, mobileTitle, variant = 'login' }) {
   const { openMenu } = useOutletContext() || {}
   return (
     <header className="topbar">
@@ -86,16 +114,31 @@ export function TopBar({ title, variant = 'login' }) {
         <button className="icon-btn topbar-menu" onClick={openMenu} aria-label="Open menu">
           <Menu size={20} />
         </button>
-        <h1 className="topbar-title">{title}</h1>
+        <span className="topbar-logo">
+          <MtnLogo width={46} />
+        </span>
+        <h1 className="topbar-title">
+          <span className="t-desk">{title}</span>
+          <span className="t-mob">{mobileTitle || title}</span>
+        </h1>
       </div>
-      {variant === 'login' ? <LastLogin /> : <ProfileCluster />}
+      {variant === 'login' ? (
+        <>
+          <LastLogin />
+          <div className="mob-only">
+            <ProfileCluster />
+          </div>
+        </>
+      ) : (
+        <ProfileCluster />
+      )}
     </header>
   )
 }
 
 function LastLogin() {
   return (
-    <div className="last-login">
+    <div className="last-login desk-only">
       <span className="ll-icon">
         <RotateCw size={10} strokeWidth={2.4} />
       </span>

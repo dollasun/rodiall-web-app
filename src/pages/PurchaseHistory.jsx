@@ -17,7 +17,7 @@ export default function PurchaseHistory() {
 
   return (
     <>
-      <TopBar title={`Hello ${USER.firstName}, Welcome!`} />
+      <TopBar title={`Hello ${USER.firstName}, Welcome!`} mobileTitle="Purchase History" />
       <div className="page">
         <h2 className="page-title">Purchase History</h2>
         <div className="tabs-bar yellow-outline" role="tablist">
@@ -174,7 +174,7 @@ function Subscriptions() {
 
   const columns = [
     { key: 'sn', label: 'SN' },
-    { key: 'type', label: 'Subscription  Type' },
+    { key: 'type', label: 'Subscription  Type', primary: true },
     { key: 'payment', label: 'Payment Type' },
     { key: 'duration', label: 'Duration', sortValue: (r) => ({ '24 hours': 1, '7 Days': 7, '1 month': 30 })[r.duration] },
     { key: 'amount', label: 'Amount', render: (r) => naira(r.amount).replace(',', '') },
@@ -255,7 +255,7 @@ function Payments() {
   const columns = [
     { key: 'sn', label: 'SN' },
     { key: 'type', label: 'Subscription Type' },
-    { key: 'bundle', label: 'Bundle Type' },
+    { key: 'bundle', label: 'Bundle Type', primary: true },
     { key: 'method', label: 'Payment Method' },
     { key: 'amount', label: 'Amount', render: (r) => naira(r.amount).replace(',', '') },
     { key: 'date', label: 'Date', sortValue: (r) => parseDMY(r.date).getTime() },

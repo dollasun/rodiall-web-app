@@ -32,17 +32,22 @@ export function Modal({ open, onClose, children, className = '', width, labelled
     }
   }, [open])
   if (!open) return null
-  return (
+  // Dashboard dialogs become native-style bottom sheets on phones; Rodiall + success modals stay centered cards.
+  const sheet = !/rd-modal|success-modal/.test(className)
+  // Portal to <body> so modals never get trapped under the sticky app bar / bottom nav
+  return createPortal(
     <div
-      className="modal-overlay"
+      className={`modal-overlay ${sheet ? 'is-sheet' : ''}`}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget && dismissable) onClose?.()
       }}
     >
-      <div className={`modal ${className}`} style={width ? { maxWidth: width } : undefined} role="dialog" aria-modal="true" aria-labelledby={labelledBy}>
+      <div className={`modal ${sheet ? 'sheet' : ''} ${className}`} style={width ? { maxWidth: width } : undefined} role="dialog" aria-modal="true" aria-labelledby={labelledBy}>
+        {sheet && <span className="sheet-grabber" aria-hidden="true" />}
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
@@ -356,8 +361,43 @@ export function DataTable({ columns, rows, pageSize, emptyText = 'No records fou
   const windowStart = Math.max(1, Math.min(current - 2, pages - 4))
   const pageNums = Array.from({ length: Math.min(5, pages) }, (_, i) => windowStart + i)
 
+  // Mobile card layout: primary column as title, status + action top-right, the rest as a label/value grid
+  const cell = (c, r) => (c.render ? c.render(r) : r[c.key])
+  const primary = columns.find((c) => c.primary) || columns.find((c) => c.key !== 'sn')
+  const statusCol = columns.find((c) => c.key === 'status')
+  const actionCol = columns.find((c) => c.key === 'action')
+  const rest = columns.filter((c) => ![primary, statusCol, actionCol].includes(c) && c.key !== 'sn')
+
   return (
     <div>
+      <div className="mcards">
+        {visible.length === 0 ? (
+          <div className="mcard-empty">{emptyText}</div>
+        ) : (
+          visible.map((r) => (
+            <div className="mcard" key={r.id}>
+              <div className="mcard-head">
+                <div style={{ minWidth: 0 }}>
+                  <div className="mcard-title">{cell(primary, r)}</div>
+                  {r.sn && <div className="mcard-sub">#{r.sn}</div>}
+                </div>
+                <div className="mcard-right">
+                  {statusCol && cell(statusCol, r)}
+                  {actionCol && cell(actionCol, r)}
+                </div>
+              </div>
+              <div className="mcard-grid">
+                {rest.map((c) => (
+                  <div key={c.key}>
+                    <span>{c.label}</span>
+                    <b>{cell(c, r)}</b>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
       <div className="table-shell">
         <div className="table-scroll" ref={scrollRef}>
           <table className="dtable" style={minWidth ? { minWidth } : undefined}>
