@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ChevronLeft, ChevronRight, ChevronsUpDown, ChevronUp, ChevronDown, Sun, Moon, X, Nfc } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, ChevronsUpDown, ChevronUp, ChevronDown, Sun, Moon, X, Nfc } from 'lucide-react'
 import { useApp } from '../state/AppState'
 
 /* ---------------- Modal ---------------- */
@@ -169,32 +169,26 @@ export function StatusBadge({ status }) {
 
 /* ---------------- Success badge ---------------- */
 export function SuccessBadge({ size = 96, confetti = false }) {
-  const sparks = confetti
+  // Static accent dots only where the Rodiall brand designs call for them; no looping effects.
+  const dots = confetti
     ? [
-        { l: '8%', t: '22%', s: 4, c: '#7b9bff', d: '0s' },
-        { l: '86%', t: '14%', s: 5, c: '#f59e57', d: '.4s' },
-        { l: '94%', t: '52%', s: 7, c: '#5cc488', d: '.8s' },
-        { l: '18%', t: '84%', s: 4, c: '#f7ce46', d: '1.1s' },
-        { l: '74%', t: '90%', s: 5, c: '#f59e57', d: '.2s' },
-        { l: '48%', t: '-2%', s: 3, c: '#7b9bff', d: '.6s' },
+        { l: '8%', t: '22%', s: 4, c: '#7b9bff' },
+        { l: '86%', t: '14%', s: 5, c: '#f59e57' },
+        { l: '94%', t: '52%', s: 7, c: '#5cc488' },
+        { l: '74%', t: '90%', s: 5, c: '#f59e57' },
+        { l: '48%', t: '-2%', s: 3, c: '#7b9bff' },
       ]
-    : [
-        { l: '12%', t: '18%', s: 4, c: '#f7ce46', d: '0s' },
-        { l: '86%', t: '24%', s: 5, c: '#f7ce46', d: '.5s' },
-        { l: '90%', t: '72%', s: 3, c: '#f7ce46', d: '1s' },
-        { l: '8%', t: '70%', s: 3, c: '#f7ce46', d: '.3s' },
-      ]
+    : []
   return (
     <div className="success-badge" style={{ width: size, height: size }}>
       <span className="ring" />
-      <span className="ring pulse" />
       <span className="core" style={{ width: size / 2, height: size / 2 }}>
         <svg width={size / 4} height={size / 4} viewBox="0 0 24 24" fill="none">
           <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#1d1d1f" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </span>
-      {sparks.map((p, i) => (
-        <span key={i} className="spark" style={{ left: p.l, top: p.t, width: p.s, height: p.s, background: p.c, animationDelay: p.d }} />
+      {dots.map((p, i) => (
+        <span key={i} className="dot-accent" style={{ left: p.l, top: p.t, width: p.s, height: p.s, background: p.c, animationDelay: `${0.25 + i * 0.05}s` }} />
       ))}
     </div>
   )
@@ -525,10 +519,6 @@ export function EmptyState({ icon, mini, title, text, action, children, compact 
   return (
     <div className="empty-card fade-in" style={compact ? { padding: '48px 24px', border: 0 } : undefined}>
       <div className="empty-art">
-        <span className="halo" />
-        <span className="spark" style={{ left: '8%', top: '26%', width: 5, height: 5, background: '#f7ce46' }} />
-        <span className="spark" style={{ left: '88%', top: '18%', width: 6, height: 6, background: '#7b9bff', animationDelay: '.6s' }} />
-        <span className="spark" style={{ left: '84%', top: '80%', width: 4, height: 4, background: '#5cc488', animationDelay: '1.2s' }} />
         <span className="tile">{icon}</span>
         {mini && <span className="mini">{mini}</span>}
       </div>
@@ -545,10 +535,42 @@ export function Steps({ steps, current }) {
     <div className="steps-row">
       {steps.map((s, i) => (
         <div key={s} className={`step-item ${i < current ? 'done' : i === current ? 'current' : ''}`}>
-          <span className="num">{i < current ? '✓' : i + 1}</span>
+          <span className="num">{i < current ? <Check size={13} strokeWidth={3} /> : i + 1}</span>
           {s}
         </div>
       ))}
     </div>
+  )
+}
+
+/* ---------------- Count-up figure (plays once, honours reduced motion) ---------------- */
+export function CountUp({ value, duration = 700 }) {
+  // Accepts formatted strings like "N51,000.00" and animates only the numeric part.
+  const match = String(value).match(/^(\D*)([\d,]+(?:\.\d+)?)(.*)$/)
+  const target = match ? parseFloat(match[2].replace(/,/g, '')) : 0
+  const decimals = match && match[2].includes('.') ? match[2].split('.')[1].length : 0
+  const reduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  const [n, setN] = useState(() => (match && !reduced ? 0 : target))
+  useEffect(() => {
+    if (!match || reduced) return
+    let raf
+    const start = performance.now()
+    const tick = (t) => {
+      const p = Math.min(1, (t - start) / duration)
+      setN(target * (1 - Math.pow(1 - p, 3)))
+      if (p < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
+  if (!match) return value
+  const formatted = n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+  return (
+    <span aria-label={value}>
+      {match[1]}
+      {formatted}
+      {match[3]}
+    </span>
   )
 }

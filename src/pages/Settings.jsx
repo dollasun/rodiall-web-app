@@ -1,38 +1,77 @@
-import { useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Eye, EyeOff, ShieldCheck, Plus, Ellipsis, Copy, CircleCheck, CircleX, Star, Trash2 } from 'lucide-react'
 import { TopBar } from '../components/Layout'
 import { ActionMenu, Modal, ModalHeader, PaymentCardVisual, ThemeSwitch } from '../components/UI'
 import { useApp, useToast } from '../state/AppState'
 import { USER } from '../data/mock'
+import { DeviceInfo, Policies, Profile } from './SettingsSections'
 
+// Order matters: this is the tab order shown to customers. Add a section by adding a row.
 const TABS = [
-  ['security', 'Account & Security'],
-  ['cards', 'My Cards'],
-  ['support', 'Support'],
+  { key: 'profile', label: 'Profile', Component: Profile },
+  { key: 'device', label: 'Device Info', Component: DeviceInfo },
+  { key: 'security', label: 'Security', Component: Security },
+  { key: 'cards', label: 'My Cards', Component: Cards },
+  { key: 'support', label: 'Support', Component: Support },
+  { key: 'policies', label: 'Policies', Component: Policies },
 ]
+const DEFAULT_TAB = TABS[0].key
 
 export default function Settings() {
   const [params, setParams] = useSearchParams()
-  const tab = TABS.some(([k]) => k === params.get('tab')) ? params.get('tab') : 'security'
+  const current = TABS.find((t) => t.key === params.get('tab')) || TABS[0]
+  const scrollRef = useRef(null)
+  const focusAfterNav = useRef(false)
+
+  // keep the active tab visible when the tab strip scrolls (phones / narrow screens)
+  useEffect(() => {
+    const el = scrollRef.current?.querySelector('.tab-btn.active')
+    el?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' })
+    if (focusAfterNav.current) {
+      el?.focus()
+      focusAfterNav.current = false
+    }
+  }, [current.key])
+
+  const select = (key) => setParams(key === DEFAULT_TAB ? {} : { tab: key }, { replace: true })
+  const onKeyDown = (e) => {
+    const i = TABS.findIndex((t) => t.key === current.key)
+    const next = e.key === 'ArrowRight' ? TABS[(i + 1) % TABS.length] : e.key === 'ArrowLeft' ? TABS[(i - 1 + TABS.length) % TABS.length] : null
+    if (next) {
+      e.preventDefault()
+      focusAfterNav.current = true
+      select(next.key)
+    }
+  }
+  const { Component } = current
+
   return (
     <>
       <TopBar title={`Hello ${USER.firstName}, Welcome!`} mobileTitle="Settings" />
       <div className="page">
         <h2 className="page-title">Settings</h2>
-        <div className="tabs-bar" role="tablist">
-          {TABS.map(([k, label]) => (
-            <button key={k} role="tab" aria-selected={tab === k} className={`tab-btn ${tab === k ? 'active' : ''}`} onClick={() => setParams(k === 'security' ? {} : { tab: k }, { replace: true })}>
-              {label}
-            </button>
-          ))}
-          <span className="spacer" />
+        <div className="tabs-bar settings-tabs">
+          <div className="tabs-scroll" ref={scrollRef} role="tablist" aria-label="Settings sections" onKeyDown={onKeyDown}>
+            {TABS.map((t) => (
+              <button
+                key={t.key}
+                role="tab"
+                id={`tab-${t.key}`}
+                aria-selected={current.key === t.key}
+                aria-controls="settings-panel"
+                tabIndex={current.key === t.key ? 0 : -1}
+                className={`tab-btn ${current.key === t.key ? 'active' : ''}`}
+                onClick={() => select(t.key)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
           <ThemeSwitch />
         </div>
-        <div key={tab} className="fade-in">
-          {tab === 'security' && <Security />}
-          {tab === 'cards' && <Cards />}
-          {tab === 'support' && <Support />}
+        <div key={current.key} className="fade-in" role="tabpanel" id="settings-panel" aria-labelledby={`tab-${current.key}`}>
+          <Component />
         </div>
       </div>
     </>

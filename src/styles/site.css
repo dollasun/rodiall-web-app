@@ -156,7 +156,7 @@
   background: radial-gradient(120% 80% at 10% 0%, #fdf8d6 0%, rgba(253, 248, 214, 0) 55%), linear-gradient(160deg, #fbfbf6 0%, #eef0fb 60%, #e7eaf8 100%);
   border: 1px solid #eef0f4;
 }
-.rd-soon-art { display: flex; justify-content: center; animation: floaty 3.2s ease-in-out infinite; }
+.rd-soon-art { display: flex; justify-content: center; animation: tileIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 .rd-soon-inner h2 { font-size: 22px; font-weight: 400; color: #222; line-height: 1.25; margin-top: 18px; }
 .rd-soon-inner p { font-size: 12.5px; color: #333; margin-top: 10px; }

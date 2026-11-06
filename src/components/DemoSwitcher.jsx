@@ -5,7 +5,7 @@ import { Popover, useToggle } from './UI'
 import { useApp, useToast } from '../state/AppState'
 
 export const SCENARIOS = [
-  { id: 'active', label: 'Active user', color: '#17b26a', desc: 'Onboarding complete, device assigned & activated — full dashboard.' },
+  { id: 'active', label: 'Active user', color: '#17b26a', desc: 'Onboarding complete, device assigned and activated.' },
   { id: 'reserved', label: 'Device reserved', color: '#f7ce46', desc: 'Profiling done, device reserved but not yet activated or assigned.' },
   { id: 'new', label: 'New user', color: '#98a2b3', desc: 'Account created, profiling not yet completed.' },
 ]

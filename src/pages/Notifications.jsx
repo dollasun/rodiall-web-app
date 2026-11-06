@@ -1,7 +1,7 @@
 import { useEffect, useId, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Clock, Database, CreditCard, Wifi, HandCoins, ShieldCheck, Package, MessageSquareText, Sparkles, UserRound, Bell,
+  Clock, Database, CreditCard, Wifi, HandCoins, ShieldCheck, Package, MessageSquareText, ClipboardCheck, ClipboardList, UserRound, Bell,
   CheckCheck, Trash2, ArrowRight, PartyPopper, CalendarClock, X,
 } from 'lucide-react'
 import { TopBar } from '../components/Layout'
@@ -11,7 +11,7 @@ import { USER, fullDateTime, relativeTime } from '../data/mock'
 
 const ICONS = {
   clock: Clock, database: Database, card: CreditCard, wifi: Wifi, coins: HandCoins, shield: ShieldCheck,
-  package: Package, message: MessageSquareText, sparkles: Sparkles, user: UserRound, party: PartyPopper,
+  package: Package, message: MessageSquareText, 'clipboard-check': ClipboardCheck, 'clipboard-list': ClipboardList, user: UserRound, party: PartyPopper,
 }
 
 export function NotificationItem({ n, compact, onOpen, onDelete }) {

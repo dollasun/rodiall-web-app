@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Wallet, CalendarCheck2, CircleCheck, HandCoins, RefreshCw, Info } from 'lucide-react'
 import { TopBar } from '../components/Layout'
-import { DataTable, Donut, SearchInput, StatusBadge } from '../components/UI'
+import { CountUp, DataTable, Donut, SearchInput, StatusBadge } from '../components/UI'
 import { CheckoutModal } from '../components/CheckoutModal'
 import { ScenarioEmpty } from '../components/ScenarioEmpty'
 import { useApp, useToast } from '../state/AppState'
@@ -52,7 +52,7 @@ function ActiveDashboard() {
                   <Icon size={12} color={ICON_COLOR[o.tone]} strokeWidth={2.2} />
                 </span>
                 <span className="ov-label">{o.label}</span>
-                <strong className="ov-value">{o.value}</strong>
+                <strong className="ov-value"><CountUp value={o.value} /></strong>
               </div>
             )
           })}

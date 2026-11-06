@@ -20,7 +20,12 @@ function rng(seed) {
 // ---------- User ----------
 export const USER = {
   firstName: 'Oyindamola',
+  lastName: 'Oladayo',
   fullName: 'Oyindamola Oladayo',
+  email: 'oyindamola.oladayo@email.com',
+  primaryPhone: '0902 345 6788',
+  secondaryPhone: '0803 123 4567',
+  createdAt: '2025-01-10T09:42:00',
   initials: 'OO',
   deviceId: '123456789',
   phone: '0772 123 456',
@@ -33,6 +38,9 @@ export const DEVICES = [
     id: 'phone',
     label: 'Rodiall Phone 13 Pro',
     kind: 'phone',
+    model: 'Rodiall Pro 13 (RP13-4G)',
+    serial: 'RDL13P2501048213',
+    uid: '8F2C41AD-9B7E-4C02-A1D7-5E93B0C4F218',
     summaryTitle: 'Device Summary',
     summary: [
       ['Phone Number', '090234567880'],
@@ -46,6 +54,9 @@ export const DEVICES = [
     id: 'mifi',
     label: 'MTN MiFi M5 CPE',
     kind: 'mifi',
+    model: 'MTN MiFi M5 CPE (M5-5G)',
+    serial: 'MTNM5C2412077360',
+    uid: '3B91E7C0-52AF-4D18-9E6B-C2047A8D1F95',
     summaryTitle: 'Account Summary',
     summary: [
       ['Phone Number', '090234567880'],
@@ -309,18 +320,18 @@ const SEEDS = {
     { id: 'n3', tone: 'danger', icon: 'card', ago: 180, read: false, cat: 'Payments', title: 'Payment failed', body: 'Your card payment of N2,000 for Renewal could not be completed. Please retry, or switch to MoMo from MTN.', action: { ...PAY, label: 'Retry payment' } },
     { id: 'n4', tone: 'info', icon: 'wifi', ago: 1440, read: true, cat: 'Subscriptions', title: 'Data bundle renewal', body: 'Your MTN 5GB for ₦1,500 bundle on MTN MiFi M5 CPE renews on 22-12-2025.', action: { label: 'View subscriptions', to: '/purchase-history' } },
     { id: 'n5', tone: 'success', icon: 'coins', ago: 4320, read: true, cat: 'Repay+', title: 'Repay+ Airtime Advance credited', body: 'N2,000 airtime advance has been credited to 090234567880.', action: { label: 'Open Repay+ Plus', to: '/repay-plus' } },
-    { id: 'n6', tone: 'info', icon: 'shield', ago: 5760, read: true, cat: 'Security', title: 'New sign-in detected', body: 'A new sign-in to your account from Chrome Desktop (macOS) was recorded. If this wasn’t you, change your password right away.', action: { label: 'Review security', to: '/settings' } },
+    { id: 'n6', tone: 'info', icon: 'shield', ago: 5760, read: true, cat: 'Security', title: 'New sign-in detected', body: 'A new sign-in to your account from Chrome Desktop (macOS) was recorded. If this wasn’t you, change your password right away.', action: { label: 'Review security', to: '/settings?tab=security' } },
   ],
   reserved: [
     { id: 'r1', tone: 'success', icon: 'package', ago: 0, read: false, cat: 'Device', title: 'Your device is reserved', body: 'Your Rodiall device has been reserved. Visit the pickup store or wait for the activation agent to complete activation.', action: { label: 'View activation details', to: '/dashboard' } },
     { id: 'r2', tone: 'info', icon: 'message', ago: 0, read: false, cat: 'Device', title: 'Activation details sent', body: `An SMS with your reservation code and activation details was sent to ${USER.phone}.` },
-    { id: 'r3', tone: 'info', icon: 'sparkles', ago: 5, read: true, cat: 'Account', title: 'Profiling completed', body: 'Thanks for answering a few questions — we matched you with a phone that fits how you use your device.' },
+    { id: 'r3', tone: 'info', icon: 'clipboard-check', ago: 5, read: true, cat: 'Account', title: 'Profiling completed', body: 'Thanks for answering a few questions. We matched you with a phone that fits how you use your device.' },
     { id: 'r4', tone: 'info', icon: 'user', ago: 30, read: true, cat: 'Account', title: 'Welcome to Rodiall', body: 'Your account has been created successfully.' },
   ],
   new: [
-    { id: 'w1', tone: 'warning', icon: 'sparkles', ago: 0, read: false, cat: 'Account', title: 'Complete your profiling', body: 'Answer two quick questions so we can match and reserve the right device for you.', action: { label: 'Complete profiling', to: '/get-started' } },
+    { id: 'w1', tone: 'warning', icon: 'clipboard-list', ago: 0, read: false, cat: 'Account', title: 'Complete your profiling', body: 'Answer two quick questions so we can match and reserve the right device for you.', action: { label: 'Complete profiling', to: '/get-started' } },
     { id: 'w2', tone: 'success', icon: 'user', ago: 20, read: false, cat: 'Account', title: 'Welcome to Rodiall', body: 'Your account has been created successfully. Explore Repay+ Plus while you get set up.', action: { label: 'Explore Repay+ Plus', to: '/repay-plus' } },
-    { id: 'w3', tone: 'info', icon: 'shield', ago: 25, read: true, cat: 'Security', title: 'Secure your account', body: 'Two-factor authentication is active on your account with Google Authenticator.', action: { label: 'Security settings', to: '/settings' } },
+    { id: 'w3', tone: 'info', icon: 'shield', ago: 25, read: true, cat: 'Security', title: 'Secure your account', body: 'Two-factor authentication is active on your account with Google Authenticator.', action: { label: 'Security settings', to: '/settings?tab=security' } },
   ],
 }
 

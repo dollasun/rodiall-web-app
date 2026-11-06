@@ -24,7 +24,7 @@ export function matchesSearch(row, q, keys) {
 
 export function downloadReceipt(row, lines) {
   const text = [
-    'RODIALL — PAYMENT RECEIPT',
+    'RODIALL PAYMENT RECEIPT',
     '==========================',
     ...lines.map(([k, v]) => `${k.padEnd(20, ' ')}${v}`),
     '',

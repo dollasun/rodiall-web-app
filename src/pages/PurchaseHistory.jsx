@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Calendar, Download, SlidersHorizontal, EllipsisVertical, Eye, FileDown, RotateCcw } from 'lucide-react'
+import { ArrowRight, Calendar, Download, SlidersHorizontal, EllipsisVertical, Eye, FileDown, RotateCcw } from 'lucide-react'
 import { TopBar } from '../components/Layout'
 import { ActionMenu, DataTable, PaymentCardVisual, Popover, SearchInput, StatusBadge, useToggle } from '../components/UI'
 import { CheckoutModal, DetailsModal } from '../components/CheckoutModal'
@@ -275,7 +275,7 @@ function Payments() {
             {pendingPaid ? (
               <div className="pending-box paid">
                 <StatusBadge status="Successful" />
-                <span>All caught up — no pending payments.</span>
+                <span>You have no pending payments.</span>
               </div>
             ) : (
               <button className="pending-box" onClick={() => setPay({ pending: true })} aria-label="Pay pending PAYG 5GB, N2,000">
@@ -285,7 +285,7 @@ function Payments() {
                 </div>
                 <span className="pending-valid">Valid For 30days</span>
                 <span className="pending-desc">Get 5GB To Access Bundle Daily @2000N</span>
-                <span className="pending-cta">Pay now →</span>
+                <span className="pending-cta">Pay now <ArrowRight size={13} /></span>
               </button>
             )}
           </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Smartphone, Clock, Sparkles, UserRoundPen, Receipt, Database, Ticket, CalendarClock, MapPin, ArrowRight } from 'lucide-react'
+import { Smartphone, Clock, UserRoundPen, Receipt, Database, Ticket, CalendarClock, MapPin, ArrowRight } from 'lucide-react'
 import { EmptyState, Steps } from './UI'
 import { ReservationModal } from '../site/ReservationModal'
 import { useApp } from '../state/AppState'
@@ -11,7 +11,7 @@ const COPY = {
     dashboard: {
       title: 'No device assigned to you yet',
       text: (d) =>
-        `Your ${d.device} has been reserved ${d.pickup ? `for pickup at ${d.store}` : 'for home delivery'}. Go for device activation — your dashboard will come alive once your device is activated and assigned to you.`,
+        `Your ${d.device} has been reserved ${d.pickup ? `for pickup at ${d.store}` : 'for home delivery'}. Complete device activation to unlock your full dashboard.`,
       icon: <Smartphone size={30} strokeWidth={1.6} />,
     },
     history: {
@@ -96,7 +96,6 @@ export function ScenarioEmpty({ area, compact }) {
     <EmptyState
       compact={compact}
       icon={copy.icon}
-      mini={showCta ? <Sparkles size={14} /> : null}
       title={copy.title}
       text={copy.text()}
       action={

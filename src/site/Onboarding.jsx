@@ -61,7 +61,8 @@ export default function Onboarding() {
   const toggleApp = (id) =>
     setApps((s) => {
       const n = new Set(s)
-      n.has(id) ? n.delete(id) : n.add(id)
+      if (n.has(id)) n.delete(id)
+      else n.add(id)
       return n
     })
 
@@ -119,7 +120,7 @@ export default function Onboarding() {
             <span className="t-desk">Proceed</span>
             <span className="t-mob">See my device</span>
           </button>
-          <p className="rd-caption">{complete ? 'Great — tap proceed to see your device' : 'Answer both questions to proceed to your device'}</p>
+          <p className="rd-caption">{complete ? 'All set. Continue to see your device' : 'Answer both questions to proceed to your device'}</p>
         </section>
 
         <aside className="rd-right">
@@ -468,7 +469,7 @@ export function About() {
         <h1>Great phones, owned on your terms.</h1>
         <p>
           Rodiall makes quality smartphones accessible through Flex Ownership. Answer two quick questions, we match you with the right
-          device, and you pay at activation — then manage repayments, storage and data from one simple dashboard.
+          device, and you pay at activation. Then manage repayments, storage and data from one dashboard.
         </p>
         <div className="rd-about-grid">
           {[

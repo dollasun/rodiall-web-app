@@ -1,0 +1,57 @@
+/* =====================================================================
+   Motion — deliberately restrained.
+   One easing family, short durations (150–450ms), every effect plays once
+   and supports a state change. Nothing loops except loading spinners.
+   ===================================================================== */
+:root {
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+@keyframes riseIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes ringIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: none; } }
+@keyframes coreIn { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+@keyframes tileIn { from { opacity: 0; transform: translateY(4px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Page sections enter once with a short stagger (route changes only) */
+.page { animation: none; }
+.page > * { animation: riseIn 0.42s var(--ease-out) both; }
+.page > *:nth-child(2) { animation-delay: 40ms; }
+.page > *:nth-child(3) { animation-delay: 80ms; }
+.page > *:nth-child(4) { animation-delay: 120ms; }
+.page > *:nth-child(n + 5) { animation-delay: 160ms; }
+
+/* Tab panels / swapped content: quick cross-fade with a hint of lift */
+.fade-in { animation: riseIn 0.28s var(--ease-out) both; }
+
+/* Progress bars fill from the left on load */
+.st-bar i, .rd-progress i.on { transform-origin: left center; animation: growX 0.8s 0.15s var(--ease-out) both; }
+
+/* Softer, consistent hover feedback */
+.btn, .tab-btn, .tool-btn, .nav-item, .device-tab, .pay-option, .opt-tile, .up-card, .info-tile, .subcard, .notif, .mcard {
+  transition-timing-function: var(--ease-out);
+}
+.btn-primary:hover:not(:disabled) { box-shadow: 0 6px 16px -8px rgba(214, 163, 10, 0.75); }
+.btn:active:not(:disabled) { transform: translateY(1px) scale(0.99); }
+.dtable td { transition: background-color 0.15s var(--ease-out); }
+.nav-item svg { transition: transform 0.2s var(--ease-out); }
+.nav-item:hover:not(.active) svg { transform: translateX(1px); }
+.up-card { transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+.up-card:hover { transform: translateY(-2px); }
+.theme-switch .knob { transition: transform 0.25s var(--ease-spring), background-color 0.2s; }
+.kebab, .icon-btn, .modal-close { transition: background-color 0.15s var(--ease-out), color 0.15s var(--ease-out); }
+
+/* Modal content settles in just after the dialog */
+.modal-body, .nm-body, .pm-body { animation: riseIn 0.32s 0.05s var(--ease-out) both; }
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
