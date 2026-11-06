@@ -226,6 +226,8 @@ function Subscriptions() {
         details={retry ? [['Subscription Type', retry.type], ['Duration', retry.duration], ['Amount', naira(retry.amount)], ['Date', fmtDMY(new Date())]] : []}
         onComplete={() => toast('Payment successful', { msg: `${retry?.type} subscription is now active.` })}
         successText="Your subscription has been activated."
+        successCta="Done"
+        onSuccessCta={() => {}}
       />
     </section>
   )
@@ -368,6 +370,8 @@ function Payments() {
           toast('Payment successful', { msg: 'Your payment has been received.' })
         }}
         successText="Your payment was successful and your subscription is active."
+        successCta="Done"
+        onSuccessCta={() => {}}
       />
     </>
   )
