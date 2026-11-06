@@ -105,6 +105,8 @@ button, a, [role='button'] { -webkit-tap-highlight-color: transparent; }
   .mcard-sub { font-size: 11px; color: var(--text-4); margin-top: 1px; }
   .mcard-right { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
   .mcard-right .kebab { width: 32px; height: 32px; margin-right: -8px; }
+  .mcard-chev { color: var(--text-4); margin-right: -4px; }
+  .mcard.clickable:active { background: var(--surface-3); }
   .mcard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border-strong); }
   .mcard-grid span { display: block; font-size: 10.5px; color: var(--text-3); }
   .mcard-grid b { display: block; font-size: 12.5px; font-weight: 500; color: var(--text); margin-top: 2px; word-break: break-word; }

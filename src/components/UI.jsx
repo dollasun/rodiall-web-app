@@ -391,6 +391,7 @@ export function DataTable({ columns, rows, pageSize, emptyText = 'No records fou
                 <div className="mcard-right">
                   {statusCol && cell(statusCol, r)}
                   {actionCol && cell(actionCol, r)}
+                  {onRowClick && !actionCol && <ChevronRight size={16} className="mcard-chev" aria-hidden="true" />}
                 </div>
               </div>
               <div className="mcard-grid">

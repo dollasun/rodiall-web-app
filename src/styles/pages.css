@@ -173,6 +173,7 @@ html[data-theme='dark'] .up-pop { background: rgba(247, 206, 70, 0.2); color: #f
 .tone-danger { background: var(--danger-bg); color: var(--danger); }
 .tone-warning { background: var(--warning-bg); color: var(--warning); }
 .tone-info { background: var(--surface-3); color: var(--text-2); }
+.tone-celebrate { background: linear-gradient(135deg, #f7ce46, #fbe08a); color: #1d1d35; }
 .notif-body { flex: 1; min-width: 0; padding-right: 44px; }
 .notif.compact .notif-body { padding-right: 14px; }
 .notif-title { font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
