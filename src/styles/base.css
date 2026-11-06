@@ -50,23 +50,25 @@
   color-scheme: light;
 }
 
+/* Dark mode is built from the Rodiall secondary colour #121F3E (navy). */
 html[data-theme='dark'] {
-  --bg: #0e1015;
-  --surface: #161920;
-  --surface-2: #1c2028;
-  --surface-3: #232833;
-  --border: #252a35;
-  --border-strong: #323946;
-  --text: #f2f4f7;
-  --text-2: #d0d5dd;
-  --text-3: #98a2b3;
-  --text-4: #6b7385;
+  --brand-navy: #121f3e;
+  --bg: #0b1530;            /* one step deeper than the brand navy */
+  --surface: #121f3e;       /* cards = brand secondary */
+  --surface-2: #172649;
+  --surface-3: #1d2e55;
+  --border: #22345c;
+  --border-strong: #2e436f;
+  --text: #f3f6fc;
+  --text-2: #cdd6ea;
+  --text-3: #9aa8c6;
+  --text-4: #6f7ea2;
 
   --primary-soft: rgba(247, 206, 70, 0.14);
   --primary-softer: rgba(247, 206, 70, 0.08);
   --primary-border: rgba(247, 206, 70, 0.35);
-  --cream: #1f2129;
-  --chart-dark: #3a4775;
+  --cream: #172649;
+  --chart-dark: #3b5496;
   --navy: #e6e9f5;
 
   --success-bg: rgba(23, 178, 106, 0.12);
@@ -75,8 +77,11 @@ html[data-theme='dark'] {
   --danger-border: rgba(240, 68, 56, 0.35);
   --warning-bg: rgba(227, 160, 8, 0.12);
   --warning-border: rgba(227, 160, 8, 0.35);
-  --link: #7f9bff;
-  --overlay: rgba(0, 0, 0, 0.6);
+  --link: #8fa8ff;
+  --overlay: rgba(4, 10, 26, 0.72);
+  --shadow-sm: 0 1px 2px rgba(2, 6, 18, 0.4);
+  --shadow-md: 0 10px 28px rgba(2, 6, 18, 0.45);
+  --shadow-lg: 0 24px 48px -12px rgba(2, 6, 18, 0.6);
 
   --t-blue-bg: rgba(47, 111, 228, 0.09); --t-blue-border: rgba(47, 111, 228, 0.22); --t-blue-inner: rgba(47, 111, 228, 0.14); --t-blue-btn: rgba(47, 111, 228, 0.3);
   --t-orange-bg: rgba(239, 123, 55, 0.08); --t-orange-border: rgba(239, 123, 55, 0.22); --t-orange-inner: rgba(239, 123, 55, 0.14); --t-orange-btn: rgba(239, 123, 55, 0.3);
@@ -168,3 +173,10 @@ table { border-collapse: collapse; }
 @keyframes drawCheck { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
 .spinner { width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; }
 .fade-in { animation: fadeIn 0.25s ease both; }
+
+/* Navy-on-navy elements need a lighter edge in dark mode */
+html[data-theme='dark'] .avatar-round,
+html[data-theme='dark'] .profile-avatar { background: linear-gradient(135deg, #2c4385, #4a63b0); }
+html[data-theme='dark'] .pcard { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 12px 28px -14px rgba(0, 0, 0, 0.8); }
+html[data-theme='dark'] .demo-pill { background: #22345c; box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.6); }
+html[data-theme='dark'] .demo-pill:hover { background: #2e436f; }

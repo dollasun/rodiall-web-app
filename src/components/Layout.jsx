@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, Outlet, useLocation, useNavigate, useOutletContext } from 'react-router-dom'
-import { ChartLine, ChartColumn, Tag, Database, Bell, Settings, Power, Menu, X, RotateCw, ChevronDown, LogOut, UserRound } from 'lucide-react'
+import { Link, NavLink, Outlet, useLocation, useNavigate, useOutletContext } from 'react-router-dom'
+import { ChartLine, ChartColumn, Tag, Database, Bell, Settings, Power, Menu, X, RotateCw, ChevronDown, ChevronRight, LogOut, UserRound } from 'lucide-react'
 import { MtnLogo } from './Brand'
 import { Modal, Popover, useToggle } from './UI'
 import { useApp } from '../state/AppState'
@@ -63,13 +63,14 @@ function Sidebar({ open, onClose, onLogout }) {
         ))}
       </nav>
       <div className="sidebar-spacer" />
-      <div className="sidebar-user">
+      <Link to="/settings" className="sidebar-user" aria-label={`${USER.fullName}, view profile`} title="View profile">
         <span className="avatar-sq">{USER.initials}</span>
-        <div style={{ minWidth: 0 }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
           <div className="sidebar-user-name">{USER.fullName}</div>
           <div className="sidebar-user-sub">{sub}</div>
         </div>
-      </div>
+        <ChevronRight size={16} className="sidebar-user-chev" aria-hidden="true" />
+      </Link>
       <button className="nav-item sidebar-logout" onClick={onLogout} style={{ width: 'calc(100% - 44px)' }}>
         <Power size={16} strokeWidth={1.7} />
         Logout
@@ -124,7 +125,10 @@ export function TopBar({ title, mobileTitle, variant = 'login' }) {
       </div>
       {variant === 'login' ? (
         <>
-          <LastLogin />
+          <div className="topbar-right desk-only">
+            <NotificationBell />
+            <LastLogin />
+          </div>
           <div className="mob-only">
             <ProfileCluster />
           </div>
@@ -138,7 +142,7 @@ export function TopBar({ title, mobileTitle, variant = 'login' }) {
 
 function LastLogin() {
   return (
-    <div className="last-login desk-only">
+    <div className="last-login">
       <span className="ll-icon">
         <RotateCw size={10} strokeWidth={2.4} />
       </span>
@@ -147,20 +151,24 @@ function LastLogin() {
   )
 }
 
-/** Variant B: bell + profile chip (Repay+ Plus, Storage) */
-function ProfileCluster() {
+/** Bell with a dropdown of the latest notifications; each opens the detail modal. */
+function NotificationBell() {
   const { unread, notifications, markRead, markAllRead } = useApp()
-  const { openLogout } = useOutletContext() || {}
   const navigate = useNavigate()
   const bellRef = useRef(null)
-  const profRef = useRef(null)
   const [bellOpen, toggleBell, closeBell] = useToggle()
-  const [profOpen, toggleProf, closeProf] = useToggle()
   const [detailId, setDetailId] = useState(null)
   const detail = notifications.find((n) => n.id === detailId)
   return (
-    <div className="topbar-right">
-      <button ref={bellRef} className="bell-btn" onClick={toggleBell} aria-label={`Notifications${unread ? `, ${unread} unread` : ''}`}>
+    <>
+      <button
+        ref={bellRef}
+        className={`bell-btn ${bellOpen ? 'open' : ''}`}
+        onClick={toggleBell}
+        aria-haspopup="dialog"
+        aria-expanded={bellOpen}
+        aria-label={`Notifications${unread ? `, ${unread} unread` : ''}`}
+      >
         <Bell size={14} />
         {unread > 0 && <span className="nav-dot" />}
       </button>
@@ -200,6 +208,20 @@ function ProfileCluster() {
           </button>
         </div>
       </Popover>
+      <NotificationModal n={detail} onClose={() => setDetailId(null)} />
+    </>
+  )
+}
+
+/** Variant B: bell + profile chip (Repay+ Plus, Storage) */
+function ProfileCluster() {
+  const { openLogout } = useOutletContext() || {}
+  const navigate = useNavigate()
+  const profRef = useRef(null)
+  const [profOpen, toggleProf, closeProf] = useToggle()
+  return (
+    <div className="topbar-right">
+      <NotificationBell />
       <button ref={profRef} className="profile-chip" onClick={toggleProf} aria-haspopup="menu" aria-expanded={profOpen}>
         <span className="avatar-round">{USER.initials}</span>
         <span className="profile-meta">
@@ -224,7 +246,6 @@ function ProfileCluster() {
           <LogOut size={14} /> Logout
         </button>
       </Popover>
-      <NotificationModal n={detail} onClose={() => setDetailId(null)} />
     </div>
   )
 }

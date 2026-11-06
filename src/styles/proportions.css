@@ -36,7 +36,7 @@
   .nav-item.active { font-weight: 500; }
   .nav-item.active::before { left: -8px; }
   .nav-item svg { width: 22px; height: 22px; }
-  .sidebar-user { padding: 8px 16px; gap: 12px; }
+  .sidebar-user { margin: 0 8px; padding: 8px; gap: 12px; }
   .avatar-sq { width: 36px; height: 36px; font-size: 12.5px; }
   .sidebar-user-name { font-size: 14px; }
   .sidebar-user-sub { font-size: 12px; }

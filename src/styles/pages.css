@@ -288,7 +288,7 @@ html[data-theme='dark'] .card-tag { color: var(--text-2); }
 .nm-danger { --nm-tint: #fde8e6; --nm-color: #f04438; --nm-glow: rgba(240, 68, 56, 0.28); }
 .nm-warning { --nm-tint: #fff1cf; --nm-color: #dc9a05; --nm-glow: rgba(220, 154, 5, 0.3); }
 .nm-celebrate { --nm-tint: #fdeeb4; --nm-color: #1d1d35; --nm-glow: rgba(233, 184, 28, 0.45); }
-html[data-theme='dark'] .nm { --nm-tint: rgba(152, 162, 179, 0.14); --nm-color: #d0d5dd; }
+html[data-theme='dark'] .nm { --nm-tint: rgba(120, 146, 210, 0.16); --nm-color: #cdd6ea; }
 html[data-theme='dark'] .nm-success { --nm-tint: rgba(23, 178, 106, 0.16); --nm-color: #3ccb7f; }
 html[data-theme='dark'] .nm-danger { --nm-tint: rgba(240, 68, 56, 0.16); --nm-color: #f97066; }
 html[data-theme='dark'] .nm-warning { --nm-tint: rgba(227, 160, 8, 0.16); --nm-color: #fdb022; }
