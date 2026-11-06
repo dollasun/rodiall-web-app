@@ -299,28 +299,52 @@ export const DEFAULT_CARDS = [
 ]
 
 // ---------- Notifications ----------
+// `ago` = minutes before "now"; converted to an exact timestamp (`at`) when seeded.
+const PAY = { label: 'Go to payments', to: '/purchase-history?tab=payments' }
+const SEEDS = {
+  active: [
+    { id: 'n0', tone: 'celebrate', icon: 'party', ago: 1, read: false, cat: 'Repayment', title: 'Your device is paid off!', body: 'N108,000.00 has been fully repaid. Your Rodiall Phone 13 Pro is permanently unlocked and belongs to you. No more deductions, ever. Rodiall is proud of you!', action: { label: 'View dashboard', to: '/dashboard' } },
+    { id: 'n1', tone: 'warning', icon: 'clock', ago: 2, read: false, cat: 'Payments', title: 'Repayment due soon', body: 'Your next repayment of N2,000 for MTN MiFi M5 CPE is due on 12-01-2025. Pay early to keep your device active without interruption.', action: { ...PAY, label: 'Pay now' } },
+    { id: 'n2', tone: 'success', icon: 'database', ago: 60, read: false, cat: 'Storage', title: 'Storage upgrade successful', body: '2 GB fractional storage has been added to your Rodiall Phone 13 Pro. It is valid for 30 days.', action: { label: 'View storage', to: '/storage' } },
+    { id: 'n3', tone: 'danger', icon: 'card', ago: 180, read: false, cat: 'Payments', title: 'Payment failed', body: 'Your card payment of N2,000 for Renewal could not be completed. Please retry, or switch to MoMo from MTN.', action: { ...PAY, label: 'Retry payment' } },
+    { id: 'n4', tone: 'info', icon: 'wifi', ago: 1440, read: true, cat: 'Subscriptions', title: 'Data bundle renewal', body: 'Your MTN 5GB for ₦1,500 bundle on MTN MiFi M5 CPE renews on 22-12-2025.', action: { label: 'View subscriptions', to: '/purchase-history' } },
+    { id: 'n5', tone: 'success', icon: 'coins', ago: 4320, read: true, cat: 'Repay+', title: 'Repay+ Airtime Advance credited', body: 'N2,000 airtime advance has been credited to 090234567880.', action: { label: 'Open Repay+ Plus', to: '/repay-plus' } },
+    { id: 'n6', tone: 'info', icon: 'shield', ago: 5760, read: true, cat: 'Security', title: 'New sign-in detected', body: 'A new sign-in to your account from Chrome Desktop (macOS) was recorded. If this wasn’t you, change your password right away.', action: { label: 'Review security', to: '/settings' } },
+  ],
+  reserved: [
+    { id: 'r1', tone: 'success', icon: 'package', ago: 0, read: false, cat: 'Device', title: 'Your device is reserved', body: 'Your Rodiall device has been reserved. Visit the pickup store or wait for the activation agent to complete activation.', action: { label: 'View activation details', to: '/dashboard' } },
+    { id: 'r2', tone: 'info', icon: 'message', ago: 0, read: false, cat: 'Device', title: 'Activation details sent', body: `An SMS with your reservation code and activation details was sent to ${USER.phone}.` },
+    { id: 'r3', tone: 'info', icon: 'sparkles', ago: 5, read: true, cat: 'Account', title: 'Profiling completed', body: 'Thanks for answering a few questions — we matched you with a phone that fits how you use your device.' },
+    { id: 'r4', tone: 'info', icon: 'user', ago: 30, read: true, cat: 'Account', title: 'Welcome to Rodiall', body: 'Your account has been created successfully.' },
+  ],
+  new: [
+    { id: 'w1', tone: 'warning', icon: 'sparkles', ago: 0, read: false, cat: 'Account', title: 'Complete your profiling', body: 'Answer two quick questions so we can match and reserve the right device for you.', action: { label: 'Complete profiling', to: '/get-started' } },
+    { id: 'w2', tone: 'success', icon: 'user', ago: 20, read: false, cat: 'Account', title: 'Welcome to Rodiall', body: 'Your account has been created successfully. Explore Repay+ Plus while you get set up.', action: { label: 'Explore Repay+ Plus', to: '/repay-plus' } },
+    { id: 'w3', tone: 'info', icon: 'shield', ago: 25, read: true, cat: 'Security', title: 'Secure your account', body: 'Two-factor authentication is active on your account with Google Authenticator.', action: { label: 'Security settings', to: '/settings' } },
+  ],
+}
+
 export function seedNotifications(scenario) {
-  if (scenario === 'active') {
-    return [
-      { id: 'n1', tone: 'warning', icon: 'clock', title: 'Repayment due soon', body: 'Your next repayment of N2,000 for Rodiall Phone 13 Pro is due on 12-01-2025.', time: '2 mins ago', read: false, cat: 'Payments' },
-      { id: 'n2', tone: 'success', icon: 'database', title: 'Storage upgrade successful', body: '2 GB fractional storage has been added to your Rodiall Phone 13 Pro.', time: '1 hour ago', read: false, cat: 'Storage' },
-      { id: 'n3', tone: 'danger', icon: 'card', title: 'Payment failed', body: 'Your card payment of N2,000 for Renewal could not be completed. Please retry from Purchase History.', time: '3 hours ago', read: false, cat: 'Payments' },
-      { id: 'n4', tone: 'info', icon: 'wifi', title: 'Data bundle renewal', body: 'Your MTN 5GB for ₦1,500 bundle on MTN MiFi M5 CPE renews on 22-12-2025.', time: 'Yesterday', read: true, cat: 'Subscriptions' },
-      { id: 'n5', tone: 'success', icon: 'coins', title: 'Repay+ Airtime Advance credited', body: 'N2,000 airtime advance has been credited to 090234567880.', time: '10-01-2025', read: true, cat: 'Repay+' },
-      { id: 'n6', tone: 'info', icon: 'shield', title: 'New sign-in detected', body: 'A new sign-in to your account from Chrome Desktop (macOS) was recorded.', time: '09-01-2025', read: true, cat: 'Security' },
-    ]
-  }
-  if (scenario === 'reserved') {
-    return [
-      { id: 'r1', tone: 'success', icon: 'package', title: 'Your device is reserved', body: 'Your Rodiall device has been reserved. Visit the pickup store or wait for the activation agent to complete activation.', time: 'Just now', read: false, cat: 'Device' },
-      { id: 'r2', tone: 'info', icon: 'message', title: 'Activation details sent', body: `An SMS with your reservation code and activation details was sent to ${USER.phone}.`, time: 'Just now', read: false, cat: 'Device' },
-      { id: 'r3', tone: 'info', icon: 'sparkles', title: 'Profiling completed', body: 'Thanks for answering a few questions — we matched you with a phone that fits how you use your device.', time: '5 mins ago', read: true, cat: 'Account' },
-      { id: 'r4', tone: 'info', icon: 'user', title: 'Welcome to Rodiall', body: 'Your account has been created successfully.', time: 'Today', read: true, cat: 'Account' },
-    ]
-  }
-  return [
-    { id: 'w1', tone: 'warning', icon: 'sparkles', title: 'Complete your profiling', body: 'Answer two quick questions so we can match and reserve the right device for you.', time: 'Just now', read: false, cat: 'Account', action: 'profiling' },
-    { id: 'w2', tone: 'success', icon: 'user', title: 'Welcome to Rodiall', body: 'Your account has been created successfully. Explore Repay+ Plus while you get set up.', time: 'Today', read: false, cat: 'Account' },
-    { id: 'w3', tone: 'info', icon: 'shield', title: 'Secure your account', body: 'Two-factor authentication is active on your account with Google Authenticator.', time: 'Today', read: true, cat: 'Security' },
-  ]
+  const now = Date.now()
+  return (SEEDS[scenario] || SEEDS.new).map(({ ago, ...n }) => ({ ...n, at: new Date(now - ago * 60000).toISOString() }))
+}
+
+export function relativeTime(iso) {
+  if (!iso) return ''
+  const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000)
+  if (mins < 1) return 'Just now'
+  if (mins < 60) return `${mins} min${mins > 1 ? 's' : ''} ago`
+  const hrs = Math.round(mins / 60)
+  if (hrs < 24) return `${hrs} hour${hrs > 1 ? 's' : ''} ago`
+  const days = Math.round(hrs / 24)
+  if (days === 1) return 'Yesterday'
+  if (days < 7) return `${days} days ago`
+  return new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+}
+
+export function fullDateTime(iso) {
+  const d = new Date(iso)
+  const date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: '2-digit', year: 'numeric' })
+  const time = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+  return `${date} · ${time}`
 }

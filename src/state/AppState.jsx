@@ -31,6 +31,7 @@ function initial() {
     purchasedStorage: 0,
     passwordModified: '45 days ago',
   }
+  if (saved && saved.notifications?.some((n) => !n.at)) saved.notifications = seedNotifications(saved.scenario || 'active')
   return saved ? { ...base, ...saved } : base
 }
 
@@ -65,7 +66,7 @@ export function AppStateProvider({ children }) {
         })),
       toggleTheme: () => set((s) => ({ theme: s.theme === 'dark' ? 'light' : 'dark' })),
       addNotification: (n) =>
-        set((s) => ({ notifications: [{ id: `x${Date.now()}`, time: 'Just now', read: false, ...n }, ...s.notifications] })),
+        set((s) => ({ notifications: [{ id: `x${Date.now()}`, at: new Date().toISOString(), read: false, ...n }, ...s.notifications] })),
       markRead: (id) => set((s) => ({ notifications: s.notifications.map((n) => (n.id === id ? { ...n, read: true } : n)) })),
       markAllRead: () => set((s) => ({ notifications: s.notifications.map((n) => ({ ...n, read: true })) })),
       removeNotification: (id) => set((s) => ({ notifications: s.notifications.filter((n) => n.id !== id) })),

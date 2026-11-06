@@ -5,7 +5,7 @@ import { MtnLogo } from './Brand'
 import { Modal, Popover, useToggle } from './UI'
 import { useApp } from '../state/AppState'
 import { USER } from '../data/mock'
-import { NotificationItem } from '../pages/Notifications'
+import { NotificationItem, NotificationModal } from '../pages/Notifications'
 
 const NAV = [
   { to: '/dashboard', label: 'Dashboard', icon: ChartLine },
@@ -156,6 +156,8 @@ function ProfileCluster() {
   const profRef = useRef(null)
   const [bellOpen, toggleBell, closeBell] = useToggle()
   const [profOpen, toggleProf, closeProf] = useToggle()
+  const [detailId, setDetailId] = useState(null)
+  const detail = notifications.find((n) => n.id === detailId)
   return (
     <div className="topbar-right">
       <button ref={bellRef} className="bell-btn" onClick={toggleBell} aria-label={`Notifications${unread ? `, ${unread} unread` : ''}`}>
@@ -173,7 +175,16 @@ function ProfileCluster() {
         </div>
         <div className="notif-pop-list">
           {notifications.slice(0, 4).map((n) => (
-            <NotificationItem key={n.id} n={n} compact onOpen={() => markRead(n.id)} />
+            <NotificationItem
+              key={n.id}
+              n={n}
+              compact
+              onOpen={() => {
+                markRead(n.id)
+                closeBell()
+                setDetailId(n.id)
+              }}
+            />
           ))}
           {notifications.length === 0 && <div style={{ padding: 24, textAlign: 'center', fontSize: 12, color: 'var(--text-3)' }}>You're all caught up</div>}
         </div>
@@ -213,6 +224,7 @@ function ProfileCluster() {
           <LogOut size={14} /> Logout
         </button>
       </Popover>
+      <NotificationModal n={detail} onClose={() => setDetailId(null)} />
     </div>
   )
 }

@@ -280,3 +280,98 @@ html[data-theme='dark'] .card-tag { color: var(--text-2); }
   .plans-card { padding: 20px 14px 24px; }
   .tab-btn.wide { min-width: 0; flex: 1; }
 }
+
+/* ============ Notification detail modal ============ */
+.nm { --nm-tint: #f1f3f7; --nm-color: #475467; --nm-glow: rgba(71, 84, 103, 0.25); overflow-x: hidden; }
+.nm-success { --nm-tint: #e3f8ec; --nm-color: #17b26a; --nm-glow: rgba(23, 178, 106, 0.3); }
+.nm-danger { --nm-tint: #fde8e6; --nm-color: #f04438; --nm-glow: rgba(240, 68, 56, 0.28); }
+.nm-warning { --nm-tint: #fff1cf; --nm-color: #dc9a05; --nm-glow: rgba(220, 154, 5, 0.3); }
+.nm-celebrate { --nm-tint: #fdeeb4; --nm-color: #1d1d35; --nm-glow: rgba(233, 184, 28, 0.45); }
+html[data-theme='dark'] .nm { --nm-tint: rgba(152, 162, 179, 0.14); --nm-color: #d0d5dd; }
+html[data-theme='dark'] .nm-success { --nm-tint: rgba(23, 178, 106, 0.16); --nm-color: #3ccb7f; }
+html[data-theme='dark'] .nm-danger { --nm-tint: rgba(240, 68, 56, 0.16); --nm-color: #f97066; }
+html[data-theme='dark'] .nm-warning { --nm-tint: rgba(227, 160, 8, 0.16); --nm-color: #fdb022; }
+html[data-theme='dark'] .nm-celebrate { --nm-tint: rgba(247, 206, 70, 0.2); --nm-color: #1d1d35; }
+
+.nm-hero {
+  position: relative; height: 96px; border-radius: 12px 12px 0 0; overflow: visible;
+  background:
+    radial-gradient(140px 90px at 88% 0%, color-mix(in srgb, var(--nm-tint) 70%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--nm-tint) 0%, color-mix(in srgb, var(--nm-tint) 35%, var(--surface)) 100%);
+}
+.nm-hero::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0.5;
+  background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--nm-color) 22%, transparent) 1px, transparent 0);
+  background-size: 14px 14px; mask-image: linear-gradient(90deg, transparent 30%, #000 100%); -webkit-mask-image: linear-gradient(90deg, transparent 30%, #000 100%);
+}
+.nm-badge {
+  position: absolute; left: 24px; bottom: -26px; z-index: 2; width: 58px; height: 58px; border-radius: 18px;
+  display: grid; place-items: center; background: var(--surface); color: var(--nm-color);
+  box-shadow: 0 0 0 5px var(--surface), 0 14px 28px -10px var(--nm-glow);
+  animation: nmPop 0.45s 0.05s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.nm-celebrate .nm-badge { background: linear-gradient(135deg, #f7ce46, #fbe08a); color: #1d1d35; }
+.nm-close {
+  position: absolute; top: 14px; right: 14px; z-index: 2; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; background: color-mix(in srgb, var(--surface) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--nm-color) 15%, var(--border)); color: var(--text-2);
+  backdrop-filter: blur(6px); transition: background-color 0.15s, transform 0.15s;
+}
+.nm-close:hover { background: var(--surface); color: var(--text); transform: rotate(90deg); }
+
+.nm-body { padding: 42px 24px 6px; }
+.nm-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.nm-chip {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px;
+  color: var(--nm-color); background: var(--nm-tint);
+}
+.nm-celebrate .nm-chip { color: #8a6a00; }
+html[data-theme='dark'] .nm-celebrate .nm-chip { color: #f7dc85; }
+.nm-ago { font-size: 12px; color: var(--text-4); }
+.nm-ago::before { content: '•'; margin-right: 8px; color: var(--border-strong); }
+.nm-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.015em; margin-top: 10px; line-height: 1.3; }
+.nm-date { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-3); margin-top: 6px; }
+.nm-text {
+  margin-top: 18px; font-size: 14.5px; line-height: 1.7; color: var(--text-2); padding: 16px 18px; border-radius: 12px;
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.nm-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 24px 22px; margin-top: 18px; border-top: 1px solid var(--border); }
+.nm-actions { display: flex; gap: 10px; }
+.nm-actions .btn { height: 42px; }
+.nm-delete {
+  display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 12px; margin-left: -12px; border-radius: 8px;
+  font-size: 13px; font-weight: 500; color: var(--text-3); transition: background-color 0.15s, color 0.15s;
+}
+.nm-delete:hover { color: var(--danger); background: var(--danger-bg); }
+.nm-delete.armed { color: #fff; background: var(--danger); margin-left: 0; animation: nmShake 0.3s ease; }
+
+.nm-confetti { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.nm-confetti i {
+  position: absolute; top: -12px; left: calc(var(--i) * 7% + 2%); width: 6px; height: 10px; border-radius: 2px;
+  animation: nmFall 2.6s ease-in calc(var(--i) * -0.19s) infinite;
+}
+.nm-confetti i:nth-child(4n + 1) { background: #f7ce46; }
+.nm-confetti i:nth-child(4n + 2) { background: #7b9bff; height: 6px; border-radius: 50%; }
+.nm-confetti i:nth-child(4n + 3) { background: #f59e57; }
+.nm-confetti i:nth-child(4n + 4) { background: #5cc488; width: 4px; }
+
+@keyframes nmPop { from { opacity: 0; transform: translateY(10px) scale(0.6); } to { opacity: 1; transform: none; } }
+@keyframes nmFall { 0% { transform: translateY(0) rotate(0); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(120px) rotate(320deg); opacity: 0; } }
+@keyframes nmShake { 0%, 100% { transform: none; } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) {
+  .nm-confetti, .nm-badge, .nm-delete.armed { animation: none !important; }
+  .nm-confetti { display: none; }
+}
+
+@media (max-width: 760px) {
+  .nm-hero { height: 88px; border-radius: 20px 20px 0 0; }
+  .nm-badge { left: 18px; width: 54px; height: 54px; border-radius: 16px; }
+  .nm-body { padding: 40px 18px 4px; }
+  .nm-title { font-size: 18px; }
+  .nm-text { font-size: 14px; padding: 14px 16px; }
+  .nm-foot { flex-direction: column-reverse; align-items: stretch; gap: 8px; padding: 16px 18px 18px; }
+  .nm-actions { width: 100%; }
+  .nm-actions .btn { flex: 1; height: 46px; }
+  .nm-actions .nm-secondary { flex: 0 0 auto; padding: 0 18px; }
+  .nm-delete { margin-left: 0; justify-content: center; }
+}
