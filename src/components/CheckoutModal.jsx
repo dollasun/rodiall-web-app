@@ -2,6 +2,7 @@ import { useEffect, useId, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal, ModalHeader, SuccessBadge } from './UI'
 import { useApp } from '../state/AppState'
+import { USER } from '../data/mock'
 
 function CardGlyph() {
   return (
@@ -124,7 +125,7 @@ export function CheckoutModal({
                 ? defaultCard
                   ? `Your default card •••• ${defaultCard.last4} will be charged.`
                   : 'Add a card in Settings › My Cards to pay by card.'
-                : 'You will receive a MoMo prompt on 090234567880 to approve this payment.'}
+                : `You will receive a MoMo prompt on ${USER.primaryPhone} to approve this payment.`}
             </p>
           </div>
         )}

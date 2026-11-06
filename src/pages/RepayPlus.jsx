@@ -3,7 +3,7 @@ import { ArrowRight, Banknote, HandCoins, ScrollText, Barcode, Zap, UsersRound, 
 import { TopBar } from '../components/Layout'
 import { CheckoutModal } from '../components/CheckoutModal'
 import { useApp, useToast } from '../state/AppState'
-import { naira, fmtDMY } from '../data/mock'
+import { USER, naira, fmtDMY } from '../data/mock'
 
 const PLANS = [
   { id: 'topup', tone: 'blue', title: 'Top-up', icon: Banknote, label: 'Buy Airtime', total: 250000, via: 'Total Purchases via Top-up' },
@@ -93,7 +93,7 @@ function PlanFlow({ plan, onClose }) {
   const { addNotification } = useApp()
   const options = OPTIONS[plan.id]
   const [opt, setOpt] = useState(options[Math.min(1, options.length - 1)].id)
-  const [phone, setPhone] = useState('090234567880')
+  const [phone, setPhone] = useState(USER.primaryPhone)
   const [qty, setQty] = useState(1)
   const [members, setMembers] = useState(['08031234567'])
   const chosen = options.find((o) => o.id === opt)

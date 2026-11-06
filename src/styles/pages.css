@@ -489,7 +489,10 @@ html[data-theme='dark'] .info-ic { color: #f7dc85; }
   .profile-hero { flex-direction: column; }
 }
 @media (max-width: 760px) {
-  .tabs-scroll { gap: 4px; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); padding-right: 24px; }
+  .tabs-scroll { gap: 4px; }
+  .tabs-scroll.fade-end { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .tabs-scroll.fade-start { -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%); mask-image: linear-gradient(90deg, transparent, #000 15%); }
+  .tabs-scroll.fade-start.fade-end { -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); }
   .tabs-scroll .tab-btn { flex: 0 0 auto !important; padding: 0 16px !important; }
   .info-grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 10px; }
   .info-tile { padding: 14px; }
@@ -506,3 +509,5 @@ html[data-theme='dark'] .info-ic { color: #f7dc85; }
   .pm-foot-note { display: none; }
   .pm-foot .btn { flex: 1; height: 46px; }
 }
+.notif.unread .notif-ic.tone-warning, .notif.unread .notif-ic.tone-info { background: var(--surface); box-shadow: inset 0 0 0 1px var(--border); }
+.support-box .icon-btn { width: 30px; height: 30px; flex-shrink: 0; }

@@ -34,6 +34,19 @@ export default function Settings() {
     }
   }, [current.key])
 
+  // Edge fades only on the side where more tabs are hidden
+  const [edges, setEdges] = useState({ start: false, end: false })
+  const updateEdges = () => {
+    const el = scrollRef.current
+    if (!el) return
+    setEdges({ start: el.scrollLeft > 4, end: el.scrollLeft + el.clientWidth < el.scrollWidth - 4 })
+  }
+  useEffect(() => {
+    updateEdges()
+    window.addEventListener('resize', updateEdges)
+    return () => window.removeEventListener('resize', updateEdges)
+  }, [])
+
   const select = (key) => setParams(key === DEFAULT_TAB ? {} : { tab: key }, { replace: true })
   const onKeyDown = (e) => {
     const i = TABS.findIndex((t) => t.key === current.key)
@@ -52,7 +65,14 @@ export default function Settings() {
       <div className="page">
         <h2 className="page-title">Settings</h2>
         <div className="tabs-bar settings-tabs">
-          <div className="tabs-scroll" ref={scrollRef} role="tablist" aria-label="Settings sections" onKeyDown={onKeyDown}>
+          <div
+            className={`tabs-scroll ${edges.start ? 'fade-start' : ''} ${edges.end ? 'fade-end' : ''}`}
+            ref={scrollRef}
+            role="tablist"
+            aria-label="Settings sections"
+            onKeyDown={onKeyDown}
+            onScroll={updateEdges}
+          >
             {TABS.map((t) => (
               <button
                 key={t.key}
@@ -467,7 +487,7 @@ function Support() {
                   {s.value}
                 </a>
               </div>
-              <button className="icon-btn" onClick={() => copy(s.value)} aria-label={`Copy ${s.value}`} style={{ width: 26, height: 26 }}>
+              <button className="icon-btn" onClick={() => copy(s.value)} aria-label={`Copy ${s.value}`}>
                 <Copy size={13} />
               </button>
             </div>
