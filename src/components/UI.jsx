@@ -330,7 +330,7 @@ export function ScrollRail({ targetRef }) {
 /**
  * columns: [{ key, label, sortable=true, render(row), sortValue(row), className }]
  */
-export function DataTable({ columns, rows, pageSize, emptyText = 'No records found', minWidth }) {
+export function DataTable({ columns, rows, pageSize, emptyText = 'No records found', minWidth, onRowClick }) {
   const scrollRef = useRef(null)
   const [sort, setSort] = useState({ key: null, dir: 'asc' })
   const [page, setPage] = useState(1)
@@ -375,7 +375,14 @@ export function DataTable({ columns, rows, pageSize, emptyText = 'No records fou
           <div className="mcard-empty">{emptyText}</div>
         ) : (
           visible.map((r) => (
-            <div className="mcard" key={r.id}>
+            <div
+              className={`mcard ${onRowClick ? 'clickable' : ''}`}
+              key={r.id}
+              onClick={onRowClick ? () => onRowClick(r) : undefined}
+              role={onRowClick ? 'button' : undefined}
+              tabIndex={onRowClick ? 0 : undefined}
+              onKeyDown={onRowClick ? (e) => e.key === 'Enter' && onRowClick(r) : undefined}
+            >
               <div className="mcard-head">
                 <div style={{ minWidth: 0 }}>
                   <div className="mcard-title">{cell(primary, r)}</div>
@@ -434,7 +441,13 @@ export function DataTable({ columns, rows, pageSize, emptyText = 'No records fou
                 </tr>
               ) : (
                 visible.map((r) => (
-                  <tr key={r.id}>
+                  <tr
+                    key={r.id}
+                    className={onRowClick ? 'clickable' : undefined}
+                    onClick={onRowClick ? () => onRowClick(r) : undefined}
+                    tabIndex={onRowClick ? 0 : undefined}
+                    onKeyDown={onRowClick ? (e) => e.key === 'Enter' && onRowClick(r) : undefined}
+                  >
                     {columns.map((c) => (
                       <td key={c.key} className={c.className}>
                         {c.render ? c.render(r) : r[c.key]}

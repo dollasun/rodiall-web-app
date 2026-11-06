@@ -6,7 +6,7 @@ export function MtnLogo({ width = 78 }) {
   return (
     <svg width={width} viewBox="0 0 80 40" aria-label="MTN" role="img">
       <ellipse cx="40" cy="20" rx="37.5" ry="17.5" fill="none" stroke="currentColor" strokeWidth="3" />
-      <text x="40" y="26.5" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="18" fill="currentColor" letterSpacing="0.5">
+      <text x="40" y="26.5" textAnchor="middle" fontFamily="Manrope, Arial, sans-serif" fontWeight="800" fontSize="18" fill="currentColor" letterSpacing="0.5">
         MTN
       </text>
     </svg>
@@ -21,7 +21,7 @@ export function RodiallLogo({ height = 30, color = '#1e1b4b' }) {
       <path d="M12.3 22.6 a3.4 3.4 0 0 1 4.6 0" fill="none" stroke={color} strokeWidth="1.3" strokeLinecap="round" />
       <path d="M10.6 20.6 a6 6 0 0 1 8 0" fill="none" stroke={color} strokeWidth="1.3" strokeLinecap="round" />
       <circle cx="14.6" cy="24.6" r="1.1" fill={color} />
-      <text x="36" y="25" fontFamily="Lato, 'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="22" fill={color} letterSpacing="-0.4">
+      <text x="36" y="25" fontFamily="Lato, Manrope, Arial, sans-serif" fontWeight="900" fontSize="22" fill={color} letterSpacing="-0.4">
         Rodiall
       </text>
     </svg>

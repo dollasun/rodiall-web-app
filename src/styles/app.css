@@ -354,3 +354,5 @@ html[data-theme='dark'] .success-badge .ring { background: rgba(247, 206, 70, 0.
   .pay-options { grid-template-columns: 1fr; }
   .steps-row { transform: scale(0.85); }
 }
+.dtable tbody tr.clickable, .mcard.clickable { cursor: pointer; }
+.dtable tbody tr.clickable:focus-visible td { outline: none; background: var(--primary-softer); }

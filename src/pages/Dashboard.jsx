@@ -107,7 +107,7 @@ function StorageWidget() {
         </button>
       </div>
       <div className="widget-body">
-        <Donut value={79} size={170} stroke={22}>
+        <Donut value={79} size={200} stroke={26}>
           <strong className="donut-value">79%</strong>
           <span className="donut-label">Storage capacity used</span>
         </Donut>
@@ -141,7 +141,7 @@ function SubscriptionWidget() {
         </button>
       </div>
       <div className="widget-body">
-        <Donut value={88} size={170} stroke={22}>
+        <Donut value={88} size={200} stroke={26}>
           <strong className="donut-value lg">3 Days</strong>
           <span className="donut-label">Until next subscription</span>
         </Donut>

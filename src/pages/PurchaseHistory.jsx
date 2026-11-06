@@ -243,41 +243,24 @@ function Payments() {
   const [pendingPaid, setPendingPaid] = useState(false)
 
   const detailRows = (r) => [
-    ['Reference', r.ref],
-    ['Subscription Type', r.type],
+    ['Transaction Reference', r.ref],
+    ['Purpose', r.type],
     ['Bundle Type', r.bundle],
     ['Payment Method', r.method],
     ['Amount', naira(r.amount)],
-    ['Date', r.date],
+    ['Date Created', r.date],
     ['Status', <StatusBadge key="s" status={r.status} />],
   ]
 
+  // Column headers follow the live portal's Payment History table
   const columns = [
     { key: 'sn', label: 'SN' },
-    { key: 'type', label: 'Subscription Type' },
-    { key: 'bundle', label: 'Bundle Type', primary: true },
+    { key: 'ref', label: 'Transaction Reference' },
+    { key: 'type', label: 'Purpose', primary: true },
     { key: 'method', label: 'Payment Method' },
     { key: 'amount', label: 'Amount', render: (r) => naira(r.amount).replace(',', '') },
-    { key: 'date', label: 'Date', sortValue: (r) => parseDMY(r.date).getTime() },
+    { key: 'date', label: 'Date Created', sortValue: (r) => parseDMY(r.date).getTime() },
     { key: 'status', label: 'Status', render: (r) => <StatusBadge status={r.status} /> },
-    {
-      key: 'action',
-      label: 'Action',
-      sortable: false,
-      className: 'col-action',
-      render: (r) => (
-        <ActionMenu
-          trigger={<EllipsisVertical size={16} />}
-          items={[
-            { label: 'View details', icon: <Eye size={14} />, onClick: () => setView(r) },
-            ...(r.status === 'Successful' ? [{ label: 'Download receipt', icon: <FileDown size={14} />, onClick: () => { downloadReceipt(r, detailRows(r).slice(0, 6)); toast('Receipt downloaded') } }] : []),
-            ...(r.status !== 'Successful'
-              ? ['sep', { label: r.status === 'Failed' ? 'Retry payment' : 'Complete payment', icon: <RotateCcw size={14} />, onClick: () => setPay({ row: r }) }]
-              : []),
-          ]}
-        />
-      ),
-    },
   ]
 
   const exportCols = columns.filter((c) => c.key !== 'action').map((c) => ({ ...c, value: c.key === 'amount' ? (r) => r.amount : undefined }))
@@ -339,10 +322,31 @@ function Payments() {
             />
           </div>
         </div>
-        <DataTable columns={columns} rows={f.filtered} pageSize={7} emptyText="No payments match your filters" />
+        <DataTable columns={columns} rows={f.filtered} pageSize={7} emptyText="No payments match your filters" onRowClick={setView} />
       </section>
 
-      <DetailsModal open={!!view} onClose={() => setView(null)} title="Payment Details" rows={view ? detailRows(view) : []} />
+      <DetailsModal
+        open={!!view}
+        onClose={() => setView(null)}
+        title="Payment Details"
+        rows={view ? detailRows(view) : []}
+        footer={
+          view && (
+            <div className="modal-actions">
+              <button className="btn btn-ghost btn-lg" onClick={() => setView(null)}>Close</button>
+              {view.status === 'Successful' ? (
+                <button className="btn btn-primary btn-lg" onClick={() => { downloadReceipt(view, detailRows(view).slice(0, 6)); toast('Receipt downloaded') }}>
+                  <FileDown size={15} /> Download receipt
+                </button>
+              ) : (
+                <button className="btn btn-primary btn-lg" onClick={() => { const r = view; setView(null); setPay({ row: r }) }}>
+                  <RotateCcw size={15} /> {view.status === 'Failed' ? 'Retry payment' : 'Complete payment'}
+                </button>
+              )}
+            </div>
+          )
+        }
+      />
       <CheckoutModal
         open={!!pay}
         onClose={() => setPay(null)}

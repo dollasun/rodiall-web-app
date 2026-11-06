@@ -1,0 +1,202 @@
+/* =====================================================================
+   Proportions matched to the live Rodiall customer portal
+   (dev.rodiall.com/customer, measured at a 1710px-wide viewport).
+   Only sizing changes here — no structural or visual-design changes.
+   Desktop/tablet only; phones keep the mobile-first layer (mobile.css).
+
+   Live reference values:
+   sidebar 256 · nav item 44h/14px · header 64h, title 18/700
+   page gutter 27 · section radius 12, padding 16/20, title 18/600
+   greeting 24/700 · KPI card 152h, padding 20, radius 10, label 16, value 24/600
+   table th 44h 14/500, td 14 with 12/16 padding · buttons 36h 14/500 · search 38h
+   Repay+ card padding 20 radius 12, title 18/700, inner 16 padding, figures 16/600
+   ===================================================================== */
+
+@media (min-width: 761px) {
+  body { font-size: 14px; }
+
+  /* ---------- buttons & inputs ---------- */
+  .btn { height: 36px; padding: 0 16px; font-size: 14px; }
+  .btn-sm { height: 36px; padding: 0 16px; font-size: 14px; }
+  .btn-lg { height: 44px; font-size: 15px; }
+  .input { height: 42px; font-size: 14px; }
+  .field-label { font-size: 14px; }
+  .field-error { font-size: 12.5px; }
+  .search { height: 38px; width: 362px; font-size: 14px; border-radius: 6px; }
+  .search input { font-size: 14px; }
+  .tool-btn { height: 38px; padding: 0 14px; font-size: 14px; }
+  .icon-btn { width: 36px; height: 36px; }
+
+  /* ---------- shell ---------- */
+  .sidebar { width: 256px; padding: 12px 0 20px; }
+  .sidebar-logo { height: 40px; padding: 0 24px; }
+  .sidebar-logo svg { width: 92px; height: auto; }
+  .sidebar-nav { margin-top: 32px; gap: 4px; }
+  .nav-item { height: 44px; margin: 0 8px; padding: 0 12px; gap: 12px; font-size: 14px; font-weight: 400; border-radius: 6px; }
+  .nav-item.active { font-weight: 500; }
+  .nav-item.active::before { left: -8px; }
+  .nav-item svg { width: 22px; height: 22px; }
+  .sidebar-user { padding: 8px 16px; gap: 12px; }
+  .avatar-sq { width: 36px; height: 36px; font-size: 12.5px; }
+  .sidebar-user-name { font-size: 14px; }
+  .sidebar-user-sub { font-size: 12px; }
+  .sidebar-logout { margin-top: 8px; width: calc(100% - 16px) !important; }
+
+  .topbar { height: 64px; padding: 0 40px 0 27px; }
+  .topbar-title { font-size: 18px; font-weight: 700; }
+  .last-login { font-size: 14px; gap: 10px; }
+  .last-login .ll-icon { width: 24px; height: 24px; }
+  .bell-btn { width: 36px; height: 36px; }
+  .avatar-round { width: 36px; height: 36px; font-size: 13px; }
+  .profile-name { font-size: 14px; }
+  .profile-role { font-size: 12px; }
+
+  .page { padding: 20px 27px 48px; gap: 16px; max-width: none; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .greeting { font-size: 24px; font-weight: 700; padding-top: 0; }
+
+  /* ---------- section cards ---------- */
+  .card { border-radius: 12px; padding: 16px; }
+  .card-head { margin-bottom: 16px; }
+  .card-title { font-size: 18px; font-weight: 600; }
+  .card-sub { font-size: 14px; }
+  .subcard { padding: 20px; border-radius: 12px; }
+
+  .tabs-bar { padding: 12px; border-radius: 12px; }
+  .tab-btn { height: 44px; min-width: 160px; font-size: 14px; }
+
+  /* ---------- dashboard ---------- */
+  .device-switch { padding: 6px 8px 6px 14px; border-radius: 10px; }
+  .device-switch-label { font-size: 14px; }
+  .device-tab { height: 32px; padding: 0 14px; font-size: 13px; border-radius: 6px; }
+
+  .overview-grid { gap: 16px; }
+  .ov-card { min-height: 152px; padding: 20px; border-radius: 10px; gap: 4px; }
+  .ov-icon { width: 40px; height: 40px; border-radius: 8px; margin-bottom: 12px; }
+  .ov-icon svg { width: 20px; height: 20px; }
+  .ov-label { font-size: 16px; font-weight: 400; line-height: 24px; }
+  .ov-value { font-size: 24px; font-weight: 600; line-height: 32px; }
+
+  .dash-grid, .dash-right { gap: 16px; }
+  .widget-body { gap: 40px; padding: 24px 0 20px; }
+  .donut-value { font-size: 24px; font-weight: 700; }
+  .donut-label { font-size: 12px; }
+  .mini-tiles { gap: 12px; min-width: 160px; }
+  .mini-tile { padding: 12px 16px; border-radius: 8px; gap: 4px; }
+  .mini-tile span { font-size: 13px; }
+  .mini-tile strong { font-size: 14px; font-weight: 700; }
+  .legend span { font-size: 13px; }
+  .legend i { width: 28px; height: 12px; }
+  .summary-grid { gap: 12px; }
+  .summary-tile { padding: 14px 16px; border-radius: 8px; gap: 4px; }
+  .summary-tile span { font-size: 14px; }
+  .summary-tile strong { font-size: 14px; font-weight: 700; }
+  .pill-active { height: 28px; padding: 0 10px; font-size: 13px; }
+  .mini-table-head, .mini-table-row { font-size: 13px; padding: 12px 14px; }
+  .mini-table-body { max-height: 90px; }
+
+  /* ---------- tables ---------- */
+  .table-shell { border-radius: 6px; }
+  .dtable th { height: 44px; padding: 0 16px; font-size: 14px; font-weight: 500; }
+  .dtable td { padding: 12px 16px; font-size: 14px; height: 48px; }
+  .status { height: 26px; padding: 0 10px; font-size: 12px; }
+  .kebab { width: 32px; height: 32px; }
+  .table-footer .showing { font-size: 14px; }
+  .pager button { min-width: 28px; height: 28px; font-size: 13px; }
+
+  /* ---------- menus / popovers ---------- */
+  .menu-item { font-size: 14px; padding: 9px 12px; }
+  .popover-title { font-size: 14px; }
+  .check-row { font-size: 14px; }
+
+  /* ---------- modals ---------- */
+  .modal-head { padding: 18px 24px; }
+  .modal-title { font-size: 16px; }
+  .modal-close { width: 30px; height: 30px; }
+  .modal-body { padding: 20px 24px 24px; gap: 18px; }
+  .modal-section-label { font-size: 14px; }
+  .detail-row { font-size: 14px; padding: 10px 0; }
+  .pay-option { height: 46px; font-size: 14px; }
+  .pay-hint { font-size: 12.5px; }
+  .success-modal h3 { font-size: 20px; }
+  .success-modal p { font-size: 14px; }
+  .opt-name { font-size: 14px; }
+  .opt-note, .opt-price { font-size: 12.5px; }
+
+  /* ---------- repay+ (live: card 20 padding, 18/700 titles, 16/600 figures) ---------- */
+  .plans-card { padding: 20px 20px 24px; }
+  .plans-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+  .plans-grid { gap: 20px; }
+  .plan { padding: 20px; border-radius: 12px; gap: 16px; }
+  .plan-head { font-size: 18px; font-weight: 700; }
+  .plan-icon { width: 32px; height: 32px; border-radius: 8px; }
+  .plan-inner { padding: 16px; border-radius: 8px; gap: 4px; }
+  .plan-label { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .plan-total { font-size: 16px; font-weight: 600; }
+  .plan-via { font-size: 12px; }
+  .plan-arrow { width: 20px; height: 20px; border-radius: 5px; top: 16px; right: 16px; }
+
+  /* ---------- purchase history ---------- */
+  .subcard-title { font-size: 16px; font-weight: 600; }
+  .pending-box { padding: 24px 20px 20px; min-height: 150px; }
+  .pending-top strong, .pending-amt { font-size: 20px; }
+  .pending-valid { font-size: 14px; }
+  .pending-desc { font-size: 13px; }
+  .pending-cta { font-size: 13px; }
+  .pm-grid .pcard { max-width: 300px; }
+  .popover-group-label { font-size: 12px; }
+
+  /* ---------- storage ---------- */
+  .storage-grid, .upgrade-grid { gap: 16px; }
+  .st-card { padding: 20px; border-radius: 10px; min-height: 152px; }
+  .st-label { font-size: 14px; }
+  .st-value { font-size: 26px; font-weight: 600; }
+  .st-bar { height: 6px; }
+  .st-legend { font-size: 12px; }
+  .up-card { padding: 20px; gap: 14px; border-radius: 12px; }
+  .up-top strong { font-size: 22px; font-weight: 600; }
+  .up-ic { width: 32px; height: 32px; }
+  .up-pop { font-size: 11px; padding: 4px 10px; }
+  .up-mid { font-size: 14px; }
+
+  /* ---------- notifications ---------- */
+  .notif { padding: 18px 20px; gap: 16px; }
+  .notif-ic { width: 40px; height: 40px; }
+  .notif-title { font-size: 15px; }
+  .notif-cat { font-size: 11px; }
+  .notif-text { font-size: 14px; }
+  .notif-time { font-size: 12px; }
+
+  /* ---------- settings ---------- */
+  .pw-card { padding: 24px 20px; }
+  .pw-title { font-size: 18px; font-weight: 600; }
+  .pw-sub { font-size: 13px; }
+  .pw-fields { gap: 20px; }
+  .pw-fields .field-label { font-size: 14px; }
+  .pw-weak, .pw-rules li { font-size: 12.5px; }
+  .sec-side .subcard { padding: 20px; }
+  .shield-ic { width: 40px; height: 40px; border-radius: 8px; }
+  .side-title { font-size: 16px; font-weight: 600; }
+  .side-text { font-size: 13px; }
+  .status-strip { height: 32px; font-size: 13px; }
+  .session-rows div { font-size: 14px; }
+  .cards-grid, .support-grid { gap: 20px; }
+  .card-slot { padding: 14px; border-radius: 10px; }
+  .card-tag { height: 24px; padding: 0 9px; font-size: 12px; }
+  .pci-note { padding: 12px 16px; }
+  .pci-note p { font-size: 12.5px; }
+  .support-card { padding: 20px; }
+  .support-box span { font-size: 12px; }
+  .support-box a { font-size: 15px; }
+  .sla { font-size: 12px; }
+
+  /* ---------- empty states ---------- */
+  .empty-title { font-size: 20px; }
+  .empty-text { font-size: 14px; max-width: 480px; }
+  .empty-chip { font-size: 13px; }
+  .step-item { font-size: 13px; width: 150px; }
+
+  /* ---------- notification detail modal ---------- */
+  .nm-chip { font-size: 11px; }
+  .nm-ago, .nm-date { font-size: 13px; }
+}
