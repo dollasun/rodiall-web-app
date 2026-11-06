@@ -140,8 +140,7 @@ const PROGRAMMES = [
     title: 'Flex Ownership',
     icon: KeyRound,
     tone: 'blue',
-    desc: 'Get a device now and own it through flexible daily, weekly or monthly repayments.',
-    unlocks: 'Flex devices and Repay+ Plus',
+    desc: 'Get a device now and get plugged into the digital economy',
     available: true,
   },
   {
@@ -150,7 +149,6 @@ const PROGRAMMES = [
     icon: Landmark,
     tone: 'purple',
     desc: 'Finance a premium device with fixed monthly instalments through Rodiall.',
-    unlocks: 'financed devices up to 12 months',
     available: false, // not yet open to customers; set true to enable profiling
   },
 ]
@@ -207,9 +205,6 @@ function Eligibility() {
                   <>
                     <span className="elig-meta">
                       <CalendarDays size={13} /> Completed {longDate(st.completedAt)}
-                    </span>
-                    <span className="elig-meta strong">
-                      <BadgeCheck size={13} /> Eligible for {p.unlocks}
                     </span>
                   </>
                 ) : (
