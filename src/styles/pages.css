@@ -376,3 +376,10 @@ html[data-theme='dark'] .nm-celebrate .nm-chip { color: #f7dc85; }
   .nm-actions .nm-secondary { flex: 0 0 auto; padding: 0 18px; }
   .nm-delete { margin-left: 0; justify-content: center; }
 }
+.field-ok { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--success); }
+.pw-actions { align-items: center; gap: 14px; }
+.pw-hint { font-size: 12.5px; color: var(--text-3); text-align: right; }
+@media (max-width: 760px) {
+  .pw-actions { flex-direction: column-reverse; align-items: stretch; gap: 8px; }
+  .pw-hint { text-align: center; }
+}

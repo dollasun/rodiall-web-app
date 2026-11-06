@@ -74,9 +74,24 @@ function Security() {
   const strong = results.every((r) => r.ok)
   const mismatch = confirm.length > 0 && confirm !== next
   const sameAsOld = next && cur && next === cur
+  const matches = confirm.length > 0 && confirm === next
+  // Button only becomes active once every requirement is met
+  const canSubmit = cur.length > 0 && strong && matches && !sameAsOld
+  const hint = !cur
+    ? 'Enter your current password'
+    : !next
+      ? 'Enter a new password'
+      : !strong
+        ? 'New password must meet all requirements'
+        : sameAsOld
+          ? 'New password must differ from your current one'
+          : !matches
+            ? 'Confirm your new password'
+            : ''
 
   const submit = (e) => {
     e.preventDefault()
+    if (!canSubmit || saving) return
     setSubmitted(true)
     if (!cur) return toast('Enter your current password', { type: 'error' })
     if (!strong) return toast('Password is too weak', { type: 'error', msg: 'Meet all the password requirements.' })
@@ -108,6 +123,8 @@ function Security() {
             <PasswordField id="pw-new" label="New Password" value={next} onChange={setNext} placeholder="Enter new password" invalid={(submitted && !strong) || sameAsOld} autoComplete="new-password" />
             <PasswordField id="pw-confirm" label="Confirm New Password" value={confirm} onChange={setConfirm} placeholder="Retype new password" invalid={mismatch} autoComplete="new-password" />
             {mismatch && <span className="field-error" style={{ marginTop: -8 }}>Passwords do not match</span>}
+            {matches && strong && <span className="field-ok fade-in" style={{ marginTop: -8 }}><CircleCheck size={13} /> Passwords match</span>}
+            {sameAsOld && <span className="field-error" style={{ marginTop: -8 }}>New password must differ from your current password</span>}
           </div>
           {next.length > 0 && !strong && (
             <div className="pw-rules fade-in" aria-live="polite">
@@ -128,7 +145,8 @@ function Security() {
             </div>
           )}
           <div className="pw-actions">
-            <button className="btn btn-primary btn-lg" type="submit" disabled={saving} style={{ minWidth: 172 }}>
+            {hint && <span className="pw-hint" id="pw-hint">{hint}</span>}
+            <button className="btn btn-primary btn-lg" type="submit" disabled={!canSubmit || saving} aria-describedby={hint ? 'pw-hint' : undefined} style={{ minWidth: 172 }}>
               {saving ? <span className="spinner" /> : 'Update Password'}
             </button>
           </div>
