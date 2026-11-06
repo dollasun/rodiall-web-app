@@ -30,6 +30,7 @@ function initial() {
     notifications: seedNotifications('active'),
     purchasedStorage: 0,
     passwordModified: '45 days ago',
+    financing: null, // Rodiall Financing eligibility: null = pending, else { completedAt, answers }
   }
   if (saved && saved.notifications?.some((n) => !n.at)) saved.notifications = seedNotifications(saved.scenario || 'active')
   return saved ? { ...base, ...saved } : base
@@ -84,6 +85,7 @@ export function AppStateProvider({ children }) {
           notifications: seedNotifications('active'),
           purchasedStorage: 0,
           passwordModified: '45 days ago',
+          financing: null,
         })
       },
     }

@@ -2,9 +2,10 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   UserRound, Mail, Phone, PhoneCall, CalendarDays, Copy, Check, BadgeCheck, Smartphone, Router, Cpu, Barcode, Fingerprint,
-  FileText, ShieldCheck, IdCard, ArrowRight, Clock, X, Headphones, ArrowUpRight,
+  FileText, ShieldCheck, IdCard, ArrowRight, Clock, X, Headphones, ArrowUpRight, KeyRound, Landmark, CircleCheck,
 } from 'lucide-react'
 import { EmptyState, Modal } from '../components/UI'
+import { CheckoutModal } from '../components/CheckoutModal'
 import { useApp, useToast } from '../state/AppState'
 import { DEVICES, RODIALL_DEVICES, USER } from '../data/mock'
 import { POLICIES } from '../data/policies'
@@ -123,7 +124,157 @@ export function Profile() {
           })}
         </div>
       </div>
+      <Eligibility />
     </section>
+  )
+}
+
+/* =========================================================
+   Eligibility profiling (inside Profile)
+   Add a programme by adding an entry to PROGRAMMES.
+   ========================================================= */
+const FLEX_COMPLETED_AT = '2025-01-12T10:24:00'
+
+const PROGRAMMES = [
+  {
+    id: 'flex',
+    title: 'Flex Ownership',
+    icon: KeyRound,
+    tone: 'blue',
+    desc: 'Get a device now and own it through flexible daily, weekly or monthly repayments.',
+    unlocks: 'Flex devices and Repay+ Plus',
+  },
+  {
+    id: 'financing',
+    title: 'Rodiall Financing',
+    icon: Landmark,
+    tone: 'purple',
+    desc: 'Finance a premium device with fixed monthly instalments through Rodiall.',
+    unlocks: 'financed devices up to 12 months',
+  },
+]
+
+const FIN_QUESTIONS = [
+  { key: 'employment', label: 'Employment status', options: ['Salaried', 'Self-employed', 'Business owner', 'Student'] },
+  { key: 'income', label: 'Monthly income', options: ['Under N100k', 'N100k to N250k', 'N250k to N500k', 'Above N500k'] },
+  { key: 'tenure', label: 'Preferred repayment period', options: ['6 months', '9 months', '12 months'] },
+]
+
+function Eligibility() {
+  const { scenario, financing, set, addNotification } = useApp()
+  const navigate = useNavigate()
+  const [open, setOpen] = useState(false)
+  const [answers, setAnswers] = useState({})
+
+  const status = {
+    flex: scenario === 'new' ? null : { completedAt: FLEX_COMPLETED_AT },
+    financing,
+  }
+  const done = PROGRAMMES.filter((p) => status[p.id]).length
+
+  const start = (id) => {
+    if (id === 'flex') return navigate('/get-started')
+    setAnswers({})
+    setOpen(true)
+  }
+
+  return (
+    <div className="elig">
+      <div className="elig-head">
+        <div>
+          <h4 className="elig-title">Eligibility Profiling</h4>
+          <p className="card-sub">Programmes you can use to get a Rodiall device.</p>
+        </div>
+        <span className="elig-count" aria-label={`${done} of ${PROGRAMMES.length} completed`}>
+          <b>{done}</b>/{PROGRAMMES.length} completed
+        </span>
+      </div>
+      <div className="elig-grid">
+        {PROGRAMMES.map((p) => {
+          const st = status[p.id]
+          const Icon = p.icon
+          return (
+            <article key={p.id} className={`subcard elig-card ${st ? 'is-done' : 'is-pending'}`}>
+              <div className="elig-top">
+                <span className={`elig-ic t-${p.tone}`}>
+                  <Icon size={20} />
+                </span>
+                {st ? (
+                  <span className="elig-badge done">
+                    <CircleCheck size={13} /> Completed
+                  </span>
+                ) : (
+                  <span className="elig-badge pending">
+                    <Clock size={13} /> Pending
+                  </span>
+                )}
+              </div>
+              <h5 className="elig-name">{p.title}</h5>
+              <p className="elig-desc">{p.desc}</p>
+              <div className="elig-foot">
+                {st ? (
+                  <>
+                    <span className="elig-meta">
+                      <CalendarDays size={13} /> Completed {longDate(st.completedAt)}
+                    </span>
+                    <span className="elig-meta strong">
+                      <BadgeCheck size={13} /> Eligible for {p.unlocks}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="elig-meta">
+                      <Clock size={13} /> Takes about 2 minutes
+                    </span>
+                    <button className="btn btn-primary elig-cta" onClick={() => start(p.id)}>
+                      Start profiling <ArrowRight size={15} />
+                    </button>
+                  </>
+                )}
+              </div>
+            </article>
+          )
+        })}
+      </div>
+
+      <CheckoutModal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Rodiall Financing eligibility"
+        showPayment={false}
+        continueLabel="Submit"
+        canContinue={FIN_QUESTIONS.every((q) => answers[q.key])}
+        onComplete={() => {
+          set({ financing: { completedAt: new Date().toISOString(), answers } })
+          addNotification({ tone: 'success', icon: 'clipboard-check', cat: 'Account', title: 'Rodiall Financing profiling completed', body: 'You can now apply for financed devices with fixed monthly instalments.', action: { label: 'View profile', to: '/settings' } })
+        }}
+        successTitle="Profiling complete"
+        successText="Your Rodiall Financing eligibility has been recorded."
+        successCta="Done"
+        onSuccessCta={() => {}}
+      >
+        <p className="elig-intro">Answer three quick questions so we can confirm your eligibility for Rodiall Financing.</p>
+        {FIN_QUESTIONS.map((q) => (
+          <div key={q.key} role="radiogroup" aria-label={q.label}>
+            <div className="modal-section-label">{q.label}</div>
+            <div className="elig-options">
+              {q.options.map((o) => (
+                <button
+                  key={o}
+                  type="button"
+                  role="radio"
+                  aria-checked={answers[q.key] === o}
+                  className={`elig-opt ${answers[q.key] === o ? 'selected' : ''}`}
+                  onClick={() => setAnswers((a) => ({ ...a, [q.key]: o }))}
+                >
+                  {o}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </CheckoutModal>
+    </div>
   )
 }
 

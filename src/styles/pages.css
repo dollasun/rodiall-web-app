@@ -511,3 +511,49 @@ html[data-theme='dark'] .info-ic { color: #f7dc85; }
 }
 .notif.unread .notif-ic.tone-warning, .notif.unread .notif-ic.tone-info { background: var(--surface); box-shadow: inset 0 0 0 1px var(--border); }
 .support-box .icon-btn { width: 30px; height: 30px; flex-shrink: 0; }
+
+/* ============ Settings › Profile: eligibility profiling ============ */
+.elig { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.elig-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.elig-title { font-size: 16px; font-weight: 600; color: var(--text); }
+.elig-head .card-sub { margin-top: 3px; }
+.elig-count { font-size: 12.5px; color: var(--text-3); background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; }
+.elig-count b { color: var(--text); font-weight: 700; }
+.elig-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.elig-card { display: flex; flex-direction: column; padding: 20px; position: relative; transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+.elig-card:hover { box-shadow: var(--shadow-sm); border-color: var(--border-strong); }
+.elig-card.is-done { border-top: 3px solid var(--success); padding-top: 18px; }
+.elig-card.is-pending { border-top: 3px solid var(--warning); padding-top: 18px; }
+.elig-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.elig-ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; border: 1px solid; }
+.elig-ic.t-blue { background: var(--t-blue-bg); color: var(--t-blue-icon); border-color: var(--t-blue-border); }
+.elig-ic.t-purple { background: var(--t-purple-bg); color: var(--t-purple-icon); border-color: var(--t-purple-border); }
+.elig-badge { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 999px; font-size: 12.5px; font-weight: 600; border: 1px solid; white-space: nowrap; }
+.elig-badge.done { color: var(--success); background: var(--success-bg); border-color: var(--success-border); }
+.elig-badge.pending { color: var(--warning); background: var(--warning-bg); border-color: var(--warning-border); }
+.elig-badge.done svg { animation: coreIn 0.4s 0.15s var(--ease-spring, ease) both; }
+.elig-name { font-size: 16px; font-weight: 700; color: var(--text); margin-top: 14px; }
+.elig-desc { font-size: 13.5px; color: var(--text-3); line-height: 1.6; margin-top: 4px; }
+.elig-desc { margin-bottom: 16px; }
+.elig-foot { display: flex; align-items: center; align-content: center; justify-content: space-between; gap: 8px 14px; flex-wrap: wrap; margin-top: auto; padding-top: 16px; min-height: 62px; border-top: 1px dashed var(--border-strong); }
+.elig-meta { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-3); }
+.elig-meta.strong { color: var(--success); font-weight: 500; }
+.elig-cta { height: 38px; }
+.elig-intro { font-size: 13.5px; color: var(--text-3); line-height: 1.6; margin-top: -4px; }
+.elig-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.elig-opt {
+  height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface);
+  font-size: 13px; font-weight: 500; color: var(--text-2); transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+.elig-opt:hover { border-color: var(--text-4); color: var(--text); }
+.elig-opt.selected { border-color: var(--primary); background: var(--primary-soft); color: var(--text); }
+
+@media (max-width: 760px) {
+  .elig { margin-top: 18px; padding-top: 16px; }
+  .elig-grid { grid-template-columns: 1fr; gap: 12px; }
+  .elig-card { padding: 16px; }
+  .elig-card.is-done, .elig-card.is-pending { padding-top: 14px; }
+  .elig-foot { flex-direction: column; align-items: stretch; }
+  .elig-cta { width: 100%; height: 44px; }
+  .elig-opt { height: 42px; font-size: 13.5px; }
+}
