@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   UserRound, Mail, Phone, PhoneCall, CalendarDays, Copy, Check, BadgeCheck, Smartphone, Router, Cpu, Barcode, Fingerprint,
-  FileText, ShieldCheck, ArrowRight, Clock, X, Headphones, ArrowUpRight,
+  FileText, ShieldCheck, IdCard, ArrowRight, Clock, X, Headphones, ArrowUpRight,
 } from 'lucide-react'
 import { EmptyState, Modal } from '../components/UI'
 import { useApp, useToast } from '../state/AppState'
@@ -132,6 +132,7 @@ export function Profile() {
    ========================================================= */
 const DEVICE_FIELDS = [
   { key: 'model', label: 'Device Model', icon: Cpu },
+  { key: 'deviceId', label: 'Device ID', icon: IdCard, mono: true, copy: true },
   { key: 'serial', label: 'Device Serial Number', icon: Barcode, mono: true, copy: true },
   { key: 'uid', label: 'Device UID', icon: Fingerprint, mono: true, copy: true },
 ]
@@ -191,7 +192,7 @@ export function DeviceInfo() {
           compact
           icon={<Smartphone size={30} strokeWidth={1.6} />}
           title="No device linked yet"
-          text="Complete your profiling to reserve a device. Its model, serial number and UID will appear here once it’s assigned to you."
+          text="Complete your profiling to reserve a device. Its model, device ID, serial number and UID will appear here once it’s assigned to you."
           action={
             <button className="btn btn-primary btn-lg" onClick={() => navigate('/get-started')}>
               Complete Profiling <ArrowRight size={15} />
@@ -226,7 +227,7 @@ export function DeviceInfo() {
             key={d.id}
             device={d}
             status={scenario === 'active' ? 'active' : 'reserved'}
-            note={scenario === 'reserved' ? 'The serial number and UID are assigned when your device is activated at pickup or delivery.' : null}
+            note={scenario === 'reserved' ? 'The device ID, serial number and UID are assigned when your device is activated at pickup or delivery.' : null}
           />
         ))}
       </div>
