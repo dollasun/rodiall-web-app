@@ -2,10 +2,9 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   UserRound, Mail, Phone, PhoneCall, CalendarDays, Copy, Check, BadgeCheck, Smartphone, Router, Cpu, Barcode, Fingerprint,
-  FileText, ShieldCheck, IdCard, ArrowRight, Clock, X, Headphones, ArrowUpRight, KeyRound, Landmark, CircleCheck,
+  FileText, ShieldCheck, IdCard, ArrowRight, Clock, X, Headphones, ArrowUpRight, KeyRound, Landmark, CircleCheck, Lock, Info,
 } from 'lucide-react'
 import { EmptyState, Modal } from '../components/UI'
-import { CheckoutModal } from '../components/CheckoutModal'
 import { useApp, useToast } from '../state/AppState'
 import { DEVICES, RODIALL_DEVICES, USER } from '../data/mock'
 import { POLICIES } from '../data/policies'
@@ -143,6 +142,7 @@ const PROGRAMMES = [
     tone: 'blue',
     desc: 'Get a device now and own it through flexible daily, weekly or monthly repayments.',
     unlocks: 'Flex devices and Repay+ Plus',
+    available: true,
   },
   {
     id: 'financing',
@@ -151,20 +151,13 @@ const PROGRAMMES = [
     tone: 'purple',
     desc: 'Finance a premium device with fixed monthly instalments through Rodiall.',
     unlocks: 'financed devices up to 12 months',
+    available: false, // not yet open to customers; set true to enable profiling
   },
 ]
 
-const FIN_QUESTIONS = [
-  { key: 'employment', label: 'Employment status', options: ['Salaried', 'Self-employed', 'Business owner', 'Student'] },
-  { key: 'income', label: 'Monthly income', options: ['Under N100k', 'N100k to N250k', 'N250k to N500k', 'Above N500k'] },
-  { key: 'tenure', label: 'Preferred repayment period', options: ['6 months', '9 months', '12 months'] },
-]
-
 function Eligibility() {
-  const { scenario, financing, set, addNotification } = useApp()
+  const { scenario, financing } = useApp()
   const navigate = useNavigate()
-  const [open, setOpen] = useState(false)
-  const [answers, setAnswers] = useState({})
 
   const status = {
     flex: scenario === 'new' ? null : { completedAt: FLEX_COMPLETED_AT },
@@ -173,9 +166,7 @@ function Eligibility() {
   const done = PROGRAMMES.filter((p) => status[p.id]).length
 
   const start = (id) => {
-    if (id === 'flex') return navigate('/get-started')
-    setAnswers({})
-    setOpen(true)
+    if (id === 'flex') navigate('/get-started')
   }
 
   return (
@@ -194,7 +185,7 @@ function Eligibility() {
           const st = status[p.id]
           const Icon = p.icon
           return (
-            <article key={p.id} className={`subcard elig-card ${st ? 'is-done' : 'is-pending'}`}>
+            <article key={p.id} className={`subcard elig-card ${st ? 'is-done' : 'is-pending'} ${!st && !p.available ? 'is-unavailable' : ''}`} aria-disabled={!st && !p.available ? true : undefined}>
               <div className="elig-top">
                 <span className={`elig-ic t-${p.tone}`}>
                   <Icon size={20} />
@@ -222,14 +213,25 @@ function Eligibility() {
                     </span>
                   </>
                 ) : (
-                  <>
-                    <span className="elig-meta">
-                      <Clock size={13} /> Takes about 2 minutes
-                    </span>
-                    <button className="btn btn-primary elig-cta" onClick={() => start(p.id)}>
-                      Start profiling <ArrowRight size={15} />
-                    </button>
-                  </>
+                  p.available ? (
+                    <>
+                      <span className="elig-meta">
+                        <Clock size={13} /> Takes about 2 minutes
+                      </span>
+                      <button className="btn btn-primary elig-cta" onClick={() => start(p.id)}>
+                        Start profiling <ArrowRight size={15} />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <span className="elig-meta">
+                        <Info size={13} /> Not yet open to customers
+                      </span>
+                      <button className="btn elig-cta elig-cta-locked" disabled aria-disabled="true" title="Rodiall Financing profiling is not available yet">
+                        <Lock size={14} /> Not yet available
+                      </button>
+                    </>
+                  )
                 )}
               </div>
             </article>
@@ -237,43 +239,6 @@ function Eligibility() {
         })}
       </div>
 
-      <CheckoutModal
-        open={open}
-        onClose={() => setOpen(false)}
-        title="Rodiall Financing eligibility"
-        showPayment={false}
-        continueLabel="Submit"
-        canContinue={FIN_QUESTIONS.every((q) => answers[q.key])}
-        onComplete={() => {
-          set({ financing: { completedAt: new Date().toISOString(), answers } })
-          addNotification({ tone: 'success', icon: 'clipboard-check', cat: 'Account', title: 'Rodiall Financing profiling completed', body: 'You can now apply for financed devices with fixed monthly instalments.', action: { label: 'View profile', to: '/settings' } })
-        }}
-        successTitle="Profiling complete"
-        successText="Your Rodiall Financing eligibility has been recorded."
-        successCta="Done"
-        onSuccessCta={() => {}}
-      >
-        <p className="elig-intro">Answer three quick questions so we can confirm your eligibility for Rodiall Financing.</p>
-        {FIN_QUESTIONS.map((q) => (
-          <div key={q.key} role="radiogroup" aria-label={q.label}>
-            <div className="modal-section-label">{q.label}</div>
-            <div className="elig-options">
-              {q.options.map((o) => (
-                <button
-                  key={o}
-                  type="button"
-                  role="radio"
-                  aria-checked={answers[q.key] === o}
-                  className={`elig-opt ${answers[q.key] === o ? 'selected' : ''}`}
-                  onClick={() => setAnswers((a) => ({ ...a, [q.key]: o }))}
-                >
-                  {o}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </CheckoutModal>
     </div>
   )
 }

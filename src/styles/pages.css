@@ -557,3 +557,12 @@ html[data-theme='dark'] .info-ic { color: #f7dc85; }
   .elig-cta { width: 100%; height: 44px; }
   .elig-opt { height: 42px; font-size: 13.5px; }
 }
+
+/* Programme not yet open: muted card, locked action */
+.elig-card.is-unavailable { background: var(--surface-2); border-top-color: var(--border-strong); }
+.elig-card.is-unavailable:hover { box-shadow: none; border-color: var(--border); border-top-color: var(--border-strong); }
+.elig-card.is-unavailable .elig-ic { filter: grayscale(1); opacity: 0.55; }
+.elig-card.is-unavailable .elig-name { color: var(--text-3); }
+.elig-card.is-unavailable .elig-desc, .elig-card.is-unavailable .elig-meta { color: var(--text-4); }
+.elig-card.is-unavailable .elig-badge.pending { color: var(--text-3); background: var(--surface-3); border-color: var(--border-strong); }
+.elig-cta-locked, .elig-cta-locked:disabled { background: var(--surface-3); color: var(--text-4); border: 1px solid var(--border-strong); opacity: 1; cursor: not-allowed; }
