@@ -365,3 +365,7 @@ html[data-theme='dark'] .success-badge .ring { background: rgba(247, 206, 70, 0.
 .dtable tbody tr.clickable, .mcard.clickable { cursor: pointer; }
 .dtable tbody tr.clickable:focus-visible td { outline: none; background: var(--primary-softer); }
 .topbar-right .last-login { padding-left: 14px; border-left: 1px solid var(--border); height: 24px; }
+
+/* Logout: destructive action reads red on hover / keyboard focus */
+.nav-item.sidebar-logout:hover,
+.nav-item.sidebar-logout:focus-visible { color: var(--danger); background: var(--danger-bg); }
