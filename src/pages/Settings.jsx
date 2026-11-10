@@ -223,7 +223,7 @@ function Security() {
             </div>
           </div>
           <div className="subcard">
-            <h4 className="side-title" style={{ marginTop: 6 }}>Active Admin Session</h4>
+            <h4 className="side-title" style={{ marginTop: 6 }}>Your Active Session</h4>
             <div className="session-rows">
               <div>
                 <span>Device:</span>

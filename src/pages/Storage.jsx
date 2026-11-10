@@ -4,7 +4,7 @@ import { TopBar } from '../components/Layout'
 import { CheckoutModal } from '../components/CheckoutModal'
 import { ScenarioEmpty } from '../components/ScenarioEmpty'
 import { useApp, useToast } from '../state/AppState'
-import { STORAGE_PLANS, fmtDMY } from '../data/mock'
+import { STORAGE_PLANS, fmtDMY, ugx } from '../data/mock'
 
 const CAPACITY = 128
 
@@ -77,7 +77,7 @@ export default function Storage() {
                       </div>
                       <div className="up-mid">
                         <span>Valid For 30days</span>
-                        <span>N{p.price}</span>
+                        <span>{ugx(p.price)}</span>
                       </div>
                       <button className="btn btn-outline-yellow btn-block btn-sm" onClick={() => setPlan(p)} disabled={full} title={full ? 'Exceeds available capacity' : undefined}>
                         Buy
@@ -100,7 +100,7 @@ export default function Storage() {
                 ['Current Bundle Name', 'Do_MI5_PAYG'],
                 ['Plan Descriptions', `${plan.gb} GB Fractional Storage`],
                 ['Validity Period', '30 days'],
-                ['Price', `N${plan.price}`],
+                ['Price', ugx(plan.price)],
                 ['Date', fmtDMY(today)],
                 ['Expiration Date', fmtDMY(exp)],
               ]

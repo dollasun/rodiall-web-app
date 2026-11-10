@@ -3,7 +3,7 @@ import { ArrowRight, Banknote, HandCoins, ScrollText, Barcode, Zap, UsersRound, 
 import { TopBar } from '../components/Layout'
 import { CheckoutModal } from '../components/CheckoutModal'
 import { useApp, useToast } from '../state/AppState'
-import { USER, naira, fmtDMY } from '../data/mock'
+import { USER, ugx, fmtDMY } from '../data/mock'
 
 const PLANS = [
   { id: 'topup', tone: 'blue', title: 'Top-up', icon: Banknote, label: 'Buy Airtime', total: 250000, via: 'Total Purchases via Top-up' },
@@ -16,20 +16,20 @@ const PLANS = [
 
 const OPTIONS = {
   topup: [
-    { id: 'a500', name: 'N500 Airtime', price: 500 },
-    { id: 'a1000', name: 'N1,000 Airtime', price: 1000 },
-    { id: 'a2000', name: 'N2,000 Airtime', price: 2000 },
-    { id: 'a5000', name: 'N5,000 Airtime', price: 5000 },
+    { id: 'a500', name: 'UGX 500 Airtime', price: 500 },
+    { id: 'a1000', name: 'UGX 1,000 Airtime', price: 1000 },
+    { id: 'a2000', name: 'UGX 2,000 Airtime', price: 2000 },
+    { id: 'a5000', name: 'UGX 5,000 Airtime', price: 5000 },
   ],
   epin: [
-    { id: 'p100', name: 'N100 PIN', price: 100 },
-    { id: 'p200', name: 'N200 PIN', price: 200 },
-    { id: 'p500', name: 'N500 PIN', price: 500 },
-    { id: 'p1000', name: 'N1,000 PIN', price: 1000 },
+    { id: 'p100', name: 'UGX 100 PIN', price: 100 },
+    { id: 'p200', name: 'UGX 200 PIN', price: 200 },
+    { id: 'p500', name: 'UGX 500 PIN', price: 500 },
+    { id: 'p1000', name: 'UGX 1,000 PIN', price: 1000 },
   ],
   direct: [
-    { id: 'd2000', name: 'Repayment N2,000', price: 2000, note: 'Weekly instalment' },
-    { id: 'd8000', name: 'Repayment N8,000', price: 8000, note: 'Monthly instalment' },
+    { id: 'd2000', name: 'Repayment UGX 2,000', price: 2000, note: 'Weekly instalment' },
+    { id: 'd8000', name: 'Repayment UGX 8,000', price: 8000, note: 'Monthly instalment' },
     { id: 'd51000', name: 'Clear balance', price: 51000, note: 'Outstanding balance' },
   ],
   data: [
@@ -40,7 +40,7 @@ const OPTIONS = {
   ],
   flex: [
     { id: 'f2', name: 'PAYG 2GB Daily', price: 2000, note: 'Access bundle daily' },
-    { id: 'f5', name: 'PAYG 5GB', price: 2000, note: 'Get 5GB to access bundle daily @2000N' },
+    { id: 'f5', name: 'PAYG 5GB', price: 2000, note: 'Get 5GB to access bundle daily for UGX 2,000' },
     { id: 'f10', name: 'PAYG 10GB', price: 3500, note: 'Valid for 30 days' },
   ],
   squad: [
@@ -71,7 +71,7 @@ export default function RepayPlus() {
                   </span>
                   <span className="plan-inner">
                     <span className="plan-label">{p.label}</span>
-                    <strong className="plan-total">{naira(p.total)}</strong>
+                    <strong className="plan-total">{ugx(p.total)}</strong>
                     <small className="plan-via">{p.via}</small>
                     <span className="plan-arrow" aria-hidden="true">
                       <ArrowRight size={11} />
@@ -110,13 +110,13 @@ function PlanFlow({ plan, onClose }) {
     ...(plan.id === 'epin' ? [['Quantity', String(qty)]] : []),
     ...(plan.id === 'squad' ? [['Members', String(members.length + 1)]] : []),
     ['Date', fmtDMY(today)],
-    ['Total', naira(total)],
+    ['Total', ugx(total)],
   ]
 
   const successText = {
     topup: `${chosen.name} sent to ${phone}.`,
     epin: `${qty} × ${chosen.name}${qty > 1 ? 's have' : ' has'} been sent to you via SMS.`,
-    direct: `Your payment of ${naira(total)} has been received.`,
+    direct: `Your payment of ${ugx(total)} has been received.`,
     data: `${chosen.name} has been activated on ${phone}.`,
     flex: `${chosen.name} has been activated on ${phone}.`,
     squad: `${chosen.name} created. Invites were sent to ${members.length} member(s).`,
@@ -145,7 +145,7 @@ function PlanFlow({ plan, onClose }) {
             <button key={o.id} type="button" className={`opt-tile ${o.id === opt ? 'selected' : ''}`} onClick={() => setOpt(o.id)} aria-pressed={o.id === opt}>
               <span className="opt-name">{o.name}</span>
               {o.note && <span className="opt-note">{o.note}</span>}
-              <span className="opt-price">{naira(o.price)}</span>
+              <span className="opt-price">{ugx(o.price)}</span>
             </button>
           ))}
         </div>

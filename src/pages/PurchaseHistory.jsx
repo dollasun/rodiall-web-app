@@ -6,7 +6,7 @@ import { ActionMenu, DataTable, PaymentCardVisual, Popover, SearchInput, StatusB
 import { CheckoutModal, DetailsModal } from '../components/CheckoutModal'
 import { ScenarioEmpty } from '../components/ScenarioEmpty'
 import { useApp, useToast } from '../state/AppState'
-import { PAYMENTS, SUBSCRIPTIONS, USER, fmtDMY, naira, parseDMY } from '../data/mock'
+import { PAYMENTS, SUBSCRIPTIONS, USER, fmtDMY, ugx, parseDMY } from '../data/mock'
 import { downloadReceipt, exportCSV, matchesSearch } from '../data/utils'
 
 export default function PurchaseHistory() {
@@ -166,7 +166,7 @@ function Subscriptions() {
     ['Subscription Type', r.type],
     ['Payment Type', r.payment],
     ['Duration', r.duration],
-    ['Amount', naira(r.amount)],
+    ['Amount', ugx(r.amount)],
     ['Date', r.date],
     ['Expiration Date', r.expiry],
     ['Status', <StatusBadge key="s" status={r.status} />],
@@ -177,7 +177,7 @@ function Subscriptions() {
     { key: 'type', label: 'Subscription  Type', primary: true },
     { key: 'payment', label: 'Payment Type' },
     { key: 'duration', label: 'Duration', sortValue: (r) => ({ '24 hours': 1, '7 Days': 7, '1 month': 30 })[r.duration] },
-    { key: 'amount', label: 'Amount', render: (r) => naira(r.amount).replace(',', '') },
+    { key: 'amount', label: 'Amount', render: (r) => ugx(r.amount) },
     { key: 'date', label: 'Date', sortValue: (r) => parseDMY(r.date).getTime() },
     { key: 'expiry', label: 'Expiration Date', sortValue: (r) => parseDMY(r.expiry).getTime() },
     { key: 'status', label: 'Status', render: (r) => <StatusBadge status={r.status === 'Successful' ? 'Successful' : r.status} /> },
@@ -223,7 +223,7 @@ function Subscriptions() {
         open={!!retry}
         onClose={() => setRetry(null)}
         title="Retry Payment"
-        details={retry ? [['Subscription Type', retry.type], ['Duration', retry.duration], ['Amount', naira(retry.amount)], ['Date', fmtDMY(new Date())]] : []}
+        details={retry ? [['Subscription Type', retry.type], ['Duration', retry.duration], ['Amount', ugx(retry.amount)], ['Date', fmtDMY(new Date())]] : []}
         onComplete={() => toast('Payment successful', { msg: `${retry?.type} subscription is now active.` })}
         successText="Your subscription has been activated."
         successCta="Done"
@@ -249,7 +249,7 @@ function Payments() {
     ['Purpose', r.type],
     ['Bundle Type', r.bundle],
     ['Payment Method', r.method],
-    ['Amount', naira(r.amount)],
+    ['Amount', ugx(r.amount)],
     ['Date Created', r.date],
     ['Status', <StatusBadge key="s" status={r.status} />],
   ]
@@ -260,12 +260,12 @@ function Payments() {
     { key: 'ref', label: 'Transaction Reference' },
     { key: 'type', label: 'Purpose', primary: true },
     { key: 'method', label: 'Payment Method' },
-    { key: 'amount', label: 'Amount', render: (r) => naira(r.amount).replace(',', '') },
+    { key: 'amount', label: 'Amount', render: (r) => ugx(r.amount) },
     { key: 'date', label: 'Date Created', sortValue: (r) => parseDMY(r.date).getTime() },
     { key: 'status', label: 'Status', render: (r) => <StatusBadge status={r.status} /> },
   ]
 
-  const exportCols = columns.filter((c) => c.key !== 'action').map((c) => ({ ...c, value: c.key === 'amount' ? (r) => r.amount : undefined }))
+  const exportCols = columns.filter((c) => c.key !== 'action').map((c) => (c.key === 'amount' ? { ...c, label: 'Amount (UGX)', value: (r) => r.amount } : c))
 
   return (
     <>
@@ -280,13 +280,13 @@ function Payments() {
                 <span>You have no pending payments.</span>
               </div>
             ) : (
-              <button className="pending-box" onClick={() => setPay({ pending: true })} aria-label="Pay pending PAYG 5GB, N2,000">
+              <button className="pending-box" onClick={() => setPay({ pending: true })} aria-label="Pay pending PAYG 5GB, UGX 2,000">
                 <div className="pending-top">
                   <strong>PAYG 5GB</strong>
-                  <span className="pending-amt">N2,000</span>
+                  <span className="pending-amt">UGX 2,000</span>
                 </div>
                 <span className="pending-valid">Valid For 30days</span>
-                <span className="pending-desc">Get 5GB To Access Bundle Daily @2000N</span>
+                <span className="pending-desc">Get 5GB To Access Bundle Daily for UGX 2,000</span>
                 <span className="pending-cta">Pay now <ArrowRight size={13} /></span>
               </button>
             )}
@@ -356,9 +356,9 @@ function Payments() {
         detailsLabel="Payment Details"
         details={
           pay?.pending
-            ? [['Subscription Type', 'PAYG'], ['Bundle', 'PAYG 5GB'], ['Description', 'Get 5GB To Access Bundle Daily'], ['Validity Period', '30 days'], ['Price', 'N2,000'], ['Date', fmtDMY(new Date())]]
+            ? [['Subscription Type', 'PAYG'], ['Bundle', 'PAYG 5GB'], ['Description', 'Get 5GB To Access Bundle Daily'], ['Validity Period', '30 days'], ['Price', ugx(2000)], ['Date', fmtDMY(new Date())]]
             : pay?.row
-              ? [['Reference', pay.row.ref], ['Subscription Type', pay.row.type], ['Bundle Type', pay.row.bundle], ['Amount', naira(pay.row.amount)], ['Date', fmtDMY(new Date())]]
+              ? [['Reference', pay.row.ref], ['Subscription Type', pay.row.type], ['Bundle Type', pay.row.bundle], ['Amount', ugx(pay.row.amount)], ['Date', fmtDMY(new Date())]]
               : []
         }
         onComplete={(method) => {

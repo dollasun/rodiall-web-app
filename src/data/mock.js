@@ -5,8 +5,8 @@ export const parseDMY = (s) => {
   const [d, m, y] = s.split(' ')[0].split('-').map(Number)
   return new Date(y, m - 1, d)
 }
-export const naira = (n) => `N${Number(n).toLocaleString('en-NG')}`
-export const ugx = (n) => `UGX ${Number(n).toLocaleString('en-US')}`
+// Single currency formatter for the whole portal: Ugandan shilling, whole units (no minor units)
+export const ugx = (n) => `UGX ${Math.round(Number(n)).toLocaleString('en-US')}`
 
 // deterministic pseudo random
 function rng(seed) {
@@ -71,17 +71,17 @@ export const DEVICES = [
 ]
 
 export const OVERVIEW = [
-  { key: 'outstanding', label: 'Outstanding balance', value: 'N51,000.00', tone: 'yellow', icon: 'wallet' },
-  { key: 'repayment', label: 'Total Repayment Amount', value: 'N65,199.94', tone: 'blue', icon: 'calendar' },
-  { key: 'paid', label: 'Total Amount Paid', value: 'N20,000.00', tone: 'peach', icon: 'check' },
-  { key: 'repayment-total', label: 'Total Repayment Amount', value: 'N250,000.00', tone: 'lavender', icon: 'coins' },
+  { key: 'outstanding', label: 'Outstanding balance', value: ugx(51000), tone: 'yellow', icon: 'wallet' },
+  { key: 'repayment', label: 'Total Repayment Amount', value: ugx(65200), tone: 'blue', icon: 'calendar' },
+  { key: 'paid', label: 'Total Amount Paid', value: ugx(20000), tone: 'peach', icon: 'check' },
+  { key: 'repayment-total', label: 'Total Repayment Amount', value: ugx(250000), tone: 'lavender', icon: 'coins' },
 ]
 
 export const MIFI_SUBSCRIPTIONS = [
-  { type: 'MTN 5GB for ₦1,500', expiry: '22-12-2025' },
-  { type: 'MTN 15GB for ₦10,500', expiry: '22-12-2025' },
-  { type: 'MTN 2GB for ₦750', expiry: '29-12-2025' },
-  { type: 'MTN 1GB Daily for ₦350', expiry: '05-01-2026' },
+  { type: `MTN 5GB for ${ugx(1500)}`, expiry: '22-12-2025' },
+  { type: `MTN 15GB for ${ugx(10500)}`, expiry: '22-12-2025' },
+  { type: `MTN 2GB for ${ugx(750)}`, expiry: '29-12-2025' },
+  { type: `MTN 1GB Daily for ${ugx(350)}`, expiry: '05-01-2026' },
 ]
 
 const phoneHistory = [
@@ -316,12 +316,12 @@ export const DEFAULT_CARDS = [
 const PAY = { label: 'Go to payments', to: '/purchase-history?tab=payments' }
 const SEEDS = {
   active: [
-    { id: 'n0', tone: 'celebrate', icon: 'party', ago: 1, read: false, cat: 'Repayment', title: 'Your device is paid off!', body: 'N108,000.00 has been fully repaid. Your Rodiall Phone 13 Pro is permanently unlocked and belongs to you. No more deductions, ever. Rodiall is proud of you!', action: { label: 'View dashboard', to: '/dashboard' } },
-    { id: 'n1', tone: 'warning', icon: 'clock', ago: 2, read: false, cat: 'Payments', title: 'Repayment due soon', body: 'Your next repayment of N2,000 for MTN MiFi M5 CPE is due on 12-01-2025. Pay early to keep your device active without interruption.', action: { ...PAY, label: 'Pay now' } },
+    { id: 'n0', tone: 'celebrate', icon: 'party', ago: 1, read: false, cat: 'Repayment', title: 'Your device is paid off!', body: 'UGX 108,000 has been fully repaid. Your Rodiall Phone 13 Pro is permanently unlocked and belongs to you. No more deductions, ever. Rodiall is proud of you!', action: { label: 'View dashboard', to: '/dashboard' } },
+    { id: 'n1', tone: 'warning', icon: 'clock', ago: 2, read: false, cat: 'Payments', title: 'Repayment due soon', body: 'Your next repayment of UGX 2,000 for MTN MiFi M5 CPE is due on 12-01-2025. Pay early to keep your device active without interruption.', action: { ...PAY, label: 'Pay now' } },
     { id: 'n2', tone: 'success', icon: 'database', ago: 60, read: false, cat: 'Storage', title: 'Storage upgrade successful', body: '2 GB fractional storage has been added to your Rodiall Phone 13 Pro. It is valid for 30 days.', action: { label: 'View storage', to: '/storage' } },
-    { id: 'n3', tone: 'danger', icon: 'card', ago: 180, read: false, cat: 'Payments', title: 'Payment failed', body: 'Your card payment of N2,000 for Renewal could not be completed. Please retry, or switch to MoMo from MTN.', action: { ...PAY, label: 'Retry payment' } },
-    { id: 'n4', tone: 'info', icon: 'wifi', ago: 1440, read: true, cat: 'Subscriptions', title: 'Data bundle renewal', body: 'Your MTN 5GB for ₦1,500 bundle on MTN MiFi M5 CPE renews on 22-12-2025.', action: { label: 'View subscriptions', to: '/purchase-history' } },
-    { id: 'n5', tone: 'success', icon: 'coins', ago: 4320, read: true, cat: 'Repay+', title: 'Repay+ Airtime Advance credited', body: 'N2,000 airtime advance has been credited to 090234567880.', action: { label: 'Open Repay+ Plus', to: '/repay-plus' } },
+    { id: 'n3', tone: 'danger', icon: 'card', ago: 180, read: false, cat: 'Payments', title: 'Payment failed', body: 'Your card payment of UGX 2,000 for Renewal could not be completed. Please retry, or switch to MoMo from MTN.', action: { ...PAY, label: 'Retry payment' } },
+    { id: 'n4', tone: 'info', icon: 'wifi', ago: 1440, read: true, cat: 'Subscriptions', title: 'Data bundle renewal', body: 'Your MTN 5GB for UGX 1,500 bundle on MTN MiFi M5 CPE renews on 22-12-2025.', action: { label: 'View subscriptions', to: '/purchase-history' } },
+    { id: 'n5', tone: 'success', icon: 'coins', ago: 4320, read: true, cat: 'Repay+', title: 'Repay+ Airtime Advance credited', body: 'UGX 2,000 airtime advance has been credited to 090234567880.', action: { label: 'Open Repay+ Plus', to: '/repay-plus' } },
     { id: 'n6', tone: 'info', icon: 'shield', ago: 5760, read: true, cat: 'Security', title: 'New sign-in detected', body: 'A new sign-in to your account from Chrome Desktop (macOS) was recorded. If this wasn’t you, change your password right away.', action: { label: 'Review security', to: '/settings?tab=security' } },
   ],
   reserved: [

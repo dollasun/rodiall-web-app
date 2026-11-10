@@ -545,7 +545,7 @@ export function Steps({ steps, current }) {
 
 /* ---------------- Count-up figure (plays once, honours reduced motion) ---------------- */
 export function CountUp({ value, duration = 700 }) {
-  // Accepts formatted strings like "N51,000.00" and animates only the numeric part.
+  // Accepts formatted strings like "UGX 51,000" and animates only the numeric part.
   const match = String(value).match(/^(\D*)([\d,]+(?:\.\d+)?)(.*)$/)
   const target = match ? parseFloat(match[2].replace(/,/g, '')) : 0
   const decimals = match && match[2].includes('.') ? match[2].split('.')[1].length : 0

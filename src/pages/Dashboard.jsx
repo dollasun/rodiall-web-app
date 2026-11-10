@@ -6,7 +6,7 @@ import { CountUp, DataTable, Donut, SearchInput, StatusBadge } from '../componen
 import { CheckoutModal } from '../components/CheckoutModal'
 import { ScenarioEmpty } from '../components/ScenarioEmpty'
 import { useApp, useToast } from '../state/AppState'
-import { DEVICES, MIFI_PURCHASES, MIFI_SUBSCRIPTIONS, OVERVIEW, PHONE_PURCHASES, USER, fmtDMY, naira } from '../data/mock'
+import { DEVICES, MIFI_PURCHASES, MIFI_SUBSCRIPTIONS, OVERVIEW, PHONE_PURCHASES, USER, fmtDMY, ugx } from '../data/mock'
 import { exportCSV, matchesSearch } from '../data/utils'
 
 const ICONS = { wallet: Wallet, calendar: CalendarCheck2, check: CircleCheck, coins: HandCoins }
@@ -170,7 +170,7 @@ function SubscriptionWidget() {
           ['Current Bundle Name', 'Signal Bundle'],
           ['Device', 'MTN MiFi M5 CPE'],
           ['Validity Period', '2 Months'],
-          ['Price', naira(15000)],
+          ['Price', ugx(15000)],
           ['Date', fmtDMY(today)],
           ['Expiration Date', fmtDMY(exp)],
         ]}
@@ -234,7 +234,7 @@ function PurchaseHistory({ rows, deviceLabel }) {
     { key: 'sn', label: 'SN' },
     { key: 'ref', label: 'Payment Ref' },
     { key: 'description', label: 'Description', primary: true },
-    { key: 'amount', label: 'Amount', render: (r) => naira(r.amount).replace(',', '') },
+    { key: 'amount', label: 'Amount', render: (r) => ugx(r.amount) },
     { key: 'date', label: 'Purchase Date', render: (r) => r.date.replace(' | ', '  |  ') },
     { key: 'method', label: 'Payment Method' },
     { key: 'status', label: 'Status', render: (r) => <StatusBadge status={r.status} /> },
@@ -251,7 +251,7 @@ function PurchaseHistory({ rows, deviceLabel }) {
             onClick={() => {
               exportCSV(
                 `purchase-history-${deviceLabel.replace(/\s+/g, '-').toLowerCase()}.csv`,
-                columns.map((c) => ({ ...c, value: c.key === 'amount' ? (r) => r.amount : undefined })),
+                columns.map((c) => (c.key === 'amount' ? { ...c, label: 'Amount (UGX)', value: (r) => r.amount } : c)),
                 filtered,
               )
               toast('Export started', { msg: `${filtered.length} record(s) exported to CSV.` })
