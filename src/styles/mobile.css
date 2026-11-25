@@ -158,7 +158,6 @@ button, a, [role='button'] { -webkit-tap-highlight-color: transparent; }
   .cards-grid::-webkit-scrollbar { display: none; }
   .card-slot { flex: 0 0 86%; scroll-snap-align: center; }
   .card-head > .btn { height: 38px; }
-  .pci-note { align-items: flex-start; }
   .support-grid { grid-template-columns: 1fr; gap: 12px; }
 
   /* ---------- empty states ---------- */
@@ -342,7 +341,6 @@ button, a, [role='button'] { -webkit-tap-highlight-color: transparent; }
   .status-strip { font-size: 12px; height: 32px; }
   .session-rows div { font-size: 13px; }
   .card-tag { font-size: 11.5px; height: 24px; }
-  .pci-note p { font-size: 12px; }
   .support-box span { font-size: 11.5px; }
   .support-box a { font-size: 14px; }
   .sla { font-size: 11.5px; }

@@ -294,14 +294,6 @@ function Cards() {
           ))}
         </div>
       )}
-      <div className="pci-note">
-        <span className="shield-ic sm">
-          <ShieldCheck size={13} />
-        </span>
-        <p>
-          <b>PCI-DSS Level 1 Encrypted Storage:</b> Full card numbers and security cryptograms are processed using zero-knowledge client tokenization. Only the masked digits and card type token are stored locally.
-        </p>
-      </div>
       <AddCardModal open={adding} onClose={() => setAdding(false)} />
       <Modal open={!!removing} onClose={() => setRemoving(null)} width={380}>
         <div style={{ padding: '26px 24px 22px', textAlign: 'center' }}>

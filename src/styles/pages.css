@@ -208,7 +208,6 @@ html[data-theme='dark'] .up-pop { background: rgba(247, 206, 70, 0.2); color: #f
 .sec-side .subcard { padding: 18px 16px; }
 .shield-ic { width: 32px; height: 32px; border-radius: 6px; background: var(--primary-soft); border: 1px solid var(--primary-border); color: #3d3a2a; display: grid; place-items: center; }
 html[data-theme='dark'] .shield-ic { color: #f7dc85; }
-.shield-ic.sm { width: 22px; height: 22px; border-radius: 4px; flex-shrink: 0; }
 .side-title { font-size: 14.5px; font-weight: 500; color: var(--text); margin-top: 18px; }
 .side-text { font-size: 10.5px; color: var(--text-2); margin-top: 2px; line-height: 1.5; }
 .status-strip { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 4px; height: 26px; border-radius: 4px; background: var(--success-bg); border: 1px solid var(--success-border); font-size: 10px; color: var(--text-2); }
@@ -229,9 +228,6 @@ html[data-theme='dark'] .shield-ic { color: #f7dc85; }
 .card-tag.alt i { background: #f2b705; }
 html[data-theme='dark'] .card-tag { color: var(--text-2); }
 .cards-empty { padding: 36px; text-align: center; border: 1px dashed var(--border-strong); border-radius: 10px; font-size: 13px; color: var(--text-3); }
-.pci-note { margin-top: 18px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface-2); border-radius: 6px; }
-.pci-note p { font-size: 10px; color: var(--text-2); line-height: 1.5; }
-.pci-note b { color: var(--text); font-weight: 600; }
 .support-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .support-card { padding: 18px 14px 14px; background: var(--surface-2); }
 .support-card .side-title { margin-top: 18px; }
