@@ -213,16 +213,6 @@ function Security() {
 
         <div className="sec-side">
           <div className="subcard">
-            <span className="shield-ic">
-              <ShieldCheck size={16} />
-            </span>
-            <h4 className="side-title">Two-Factor Authentication</h4>
-            <p className="side-text">Your account is protected with Google Authenticator hardware-backed TOTP security.</p>
-            <div className="status-strip">
-              <span className="dot" /> Status: <b>Active</b>
-            </div>
-          </div>
-          <div className="subcard">
             <h4 className="side-title" style={{ marginTop: 6 }}>Your Active Session</h4>
             <div className="session-rows">
               <div>

@@ -178,7 +178,6 @@
   .shield-ic { width: 40px; height: 40px; border-radius: 8px; }
   .side-title { font-size: 16px; font-weight: 600; }
   .side-text { font-size: 13px; }
-  .status-strip { height: 32px; font-size: 13px; }
   .session-rows div { font-size: 14px; }
   .cards-grid, .support-grid { gap: 20px; }
   .card-slot { padding: 14px; border-radius: 10px; }

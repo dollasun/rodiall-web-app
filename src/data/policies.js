@@ -32,7 +32,7 @@ export const POLICIES = [
       ['4. Sharing your information', 'We share information only with partners who help us deliver our services, such as payment processors, mobile network operators and activation agents, and only as needed. We never sell your personal data.'],
       ['5. Data retention', 'We keep your information for as long as your account is active and as required to meet legal, accounting and regulatory obligations. Afterwards it is securely deleted or anonymised.'],
       ['6. Your rights', 'You can request access to, correction of, or deletion of your personal information, subject to legal requirements. Contact support to make a request.'],
-      ['7. Security', 'We protect your account with encryption, two-factor authentication and continuous monitoring. Please keep your password private and enable notifications for sign-in activity.'],
+      ['7. Security', 'We protect your account with encryption and continuous monitoring. Please keep your password private and enable notifications for sign-in activity.'],
       ['8. Updates to this policy', 'We may update this policy as our services change. The “Last updated” date at the top shows when it was last revised.'],
     ],
   },

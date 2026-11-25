@@ -338,7 +338,6 @@ button, a, [role='button'] { -webkit-tap-highlight-color: transparent; }
   .pw-weak, .pw-rules li { font-size: 12px; }
   .side-title { font-size: 15px; font-weight: 600; }
   .side-text { font-size: 12.5px; }
-  .status-strip { font-size: 12px; height: 32px; }
   .session-rows div { font-size: 13px; }
   .card-tag { font-size: 11.5px; height: 24px; }
   .support-box span { font-size: 11.5px; }

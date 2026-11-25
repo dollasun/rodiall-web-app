@@ -333,7 +333,7 @@ const SEEDS = {
   new: [
     { id: 'w1', tone: 'warning', icon: 'clipboard-list', ago: 0, read: false, cat: 'Account', title: 'Complete your profiling', body: 'Answer two quick questions so we can match and reserve the right device for you.', action: { label: 'Complete profiling', to: '/get-started' } },
     { id: 'w2', tone: 'success', icon: 'user', ago: 20, read: false, cat: 'Account', title: 'Welcome to Rodiall', body: 'Your account has been created successfully. Explore Repay+ Plus while you get set up.', action: { label: 'Explore Repay+ Plus', to: '/repay-plus' } },
-    { id: 'w3', tone: 'info', icon: 'shield', ago: 25, read: true, cat: 'Security', title: 'Secure your account', body: 'Two-factor authentication is active on your account with Google Authenticator.', action: { label: 'Security settings', to: '/settings?tab=security' } },
+    { id: 'w3', tone: 'info', icon: 'shield', ago: 25, read: true, cat: 'Security', title: 'Secure your account', body: 'Use a strong, unique password and review your active session regularly to keep your account safe.', action: { label: 'Security settings', to: '/settings?tab=security' } },
   ],
 }
 
