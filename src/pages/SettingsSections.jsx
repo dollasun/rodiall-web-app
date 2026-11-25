@@ -172,7 +172,7 @@ function Eligibility() {
       <div className="elig-head">
         <div>
           <h4 className="elig-title">Eligibility Profiling</h4>
-          <p className="card-sub">Programmes you can use to get a Rodiall device.</p>
+          <p className="card-sub">Plans you can use to get a Rodiall device.</p>
         </div>
         <span className="elig-count" aria-label={`${done} of ${PROGRAMMES.length} completed`}>
           <b>{done}</b>/{PROGRAMMES.length} completed

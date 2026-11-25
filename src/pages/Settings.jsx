@@ -473,9 +473,6 @@ function Support() {
                 <Copy size={13} />
               </button>
             </div>
-            <p className="sla">
-              <b>SLA Guarantee:</b> Response in 3 Minutes
-            </p>
           </div>
         ))}
       </div>
