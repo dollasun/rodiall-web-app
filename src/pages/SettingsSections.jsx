@@ -2,12 +2,12 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   UserRound, Mail, Phone, PhoneCall, CalendarDays, Copy, Check, BadgeCheck, Smartphone, Router, Cpu, Barcode, Fingerprint,
-  FileText, ShieldCheck, IdCard, ArrowRight, Clock, X, Headphones, ArrowUpRight, KeyRound, Landmark, CircleCheck, Lock, Info,
+  FileText, ShieldCheck, IdCard, ArrowRight, Clock, X, Headphones, ArrowUpRight, KeyRound, Landmark, CircleCheck, Lock, Info, Globe, ChevronDown,
 } from 'lucide-react'
 import { EmptyState, Modal } from '../components/UI'
 import { useApp, useToast } from '../state/AppState'
 import { DEVICES, RODIALL_DEVICES, USER } from '../data/mock'
-import { POLICIES } from '../data/policies'
+import { POLICIES, POLICY_TAGS, policyContent, policyLanguages } from '../data/policies'
 
 /* ---------- shared bits ---------- */
 function useCopy() {
@@ -139,7 +139,7 @@ const PROGRAMMES = [
     id: 'flex',
     title: 'Flex Ownership',
     icon: KeyRound,
-    tone: 'blue',
+    tone: 'purple',
     desc: 'Get a device now and get plugged into the digital economy',
     available: true,
   },
@@ -147,7 +147,7 @@ const PROGRAMMES = [
     id: 'financing',
     title: 'Rodiall Financing',
     icon: Landmark,
-    tone: 'purple',
+    tone: 'blue',
     desc: 'Finance a premium device with fixed monthly instalments through Rodiall.',
     available: false, // not yet open to customers; set true to enable profiling
   },
@@ -388,64 +388,156 @@ export function Policies() {
   )
 }
 
-function PolicyModal({ policy, onClose }) {
-  const hid = useId()
-  const bodyRef = useRef(null)
-  const [progress, setProgress] = useState(0)
+/** Accessible language dropdown (button + listbox). Escape closes the list without closing the modal. */
+function LanguageSelect({ value, options, onChange }) {
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState(0)
+  const wrapRef = useRef(null)
+  const btnRef = useRef(null)
+  const listRef = useRef(null)
+  const uid = useId()
+  const current = options.find((o) => o.code === value) || options[0]
 
   useEffect(() => {
-    setProgress(0)
-    if (bodyRef.current) bodyRef.current.scrollTop = 0
-  }, [policy?.id])
+    if (!open) return
+    const onDown = (e) => {
+      if (!wrapRef.current?.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', onDown)
+    return () => document.removeEventListener('mousedown', onDown)
+  }, [open])
 
-  if (!policy) return null
-  const Icon = POLICY_ICONS[policy.icon] || FileText
-  const onScroll = (e) => {
-    const el = e.currentTarget
-    const max = el.scrollHeight - el.clientHeight
-    setProgress(max > 0 ? Math.min(100, (el.scrollTop / max) * 100) : 100)
+  useEffect(() => {
+    if (open) listRef.current?.focus()
+  }, [open])
+
+  const openList = () => {
+    setActive(Math.max(0, options.findIndex((o) => o.code === current.code)))
+    setOpen(true)
+  }
+  const close = (refocus = true) => {
+    setOpen(false)
+    if (refocus) btnRef.current?.focus()
+  }
+  const choose = (code) => {
+    onChange(code)
+    close()
+  }
+  const onListKey = (e) => {
+    const n = options.length
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      e.stopPropagation() // closes only the list; the modal stays open
+      close()
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActive((i) => (i + 1) % n)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActive((i) => (i - 1 + n) % n)
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      setActive(0)
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      setActive(n - 1)
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      choose(options[active].code)
+    } else if (e.key === 'Tab') {
+      setOpen(false)
+    }
   }
 
   return (
+    <div className="lang-select" ref={wrapRef}>
+      <button
+        ref={btnRef}
+        type="button"
+        className={`lang-btn ${open ? 'open' : ''}`}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`Language: ${current.label}`}
+        onClick={() => (open ? close(false) : openList())}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault()
+            openList()
+          }
+        }}
+      >
+        <Globe size={15} aria-hidden="true" />
+        <span className="lang-current">{current.label}</span>
+        <ChevronDown size={16} className="lang-chev" aria-hidden="true" />
+      </button>
+      {open && (
+        <ul ref={listRef} className="lang-list" role="listbox" aria-label="Language" tabIndex={-1} aria-activedescendant={`${uid}-${active}`} onKeyDown={onListKey}>
+          {options.map((o, i) => (
+            <li
+              key={o.code}
+              id={`${uid}-${i}`}
+              role="option"
+              aria-selected={o.code === current.code}
+              className={`lang-opt ${i === active ? 'active' : ''} ${o.code === current.code ? 'selected' : ''}`}
+              onMouseEnter={() => setActive(i)}
+              onClick={() => choose(o.code)}
+            >
+              {o.label}
+              {o.code === current.code && <Check size={15} aria-hidden="true" />}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function PolicyModal({ policy, onClose }) {
+  const hid = useId()
+  const scrollRef = useRef(null)
+  const { language, set } = useApp()
+  const options = policy ? policyLanguages(policy) : []
+  const lang = options.some((o) => o.code === language) ? language : 'en'
+  const content = policy ? policyContent(policy, lang) : null
+
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0
+  }, [policy?.id, lang])
+
+  if (!policy) return null
+  const tag = POLICY_TAGS[policy.tag] || POLICY_TAGS.flex
+
+  return (
     <Modal open onClose={onClose} className="policy-modal" width={760} labelledBy={hid}>
-      <header className="pm-head">
-        <span className="policy-ic sm">
-          <Icon size={18} />
-        </span>
-        <div className="pm-head-text">
-          <h3 id={hid}>{policy.title}</h3>
-          <span>Last updated {policy.updated}</span>
-        </div>
-        <button className="modal-close" onClick={onClose} aria-label="Close">
+      <header className={`pr-head ${options.length > 1 ? '' : 'no-lang'}`}>
+        <h3 className="pr-title" id={hid} lang={content.lang}>
+          {content.title}
+        </h3>
+        {options.length > 1 && <LanguageSelect value={lang} options={options} onChange={(code) => set({ language: code })} />}
+        <button className="modal-close pr-close" onClick={onClose} aria-label="Close">
           <X size={14} />
         </button>
-        <span className="pm-progress" style={{ width: `${progress}%` }} aria-hidden="true" />
       </header>
-      <div className="pm-body" ref={bodyRef} onScroll={onScroll} tabIndex={0}>
-        <nav className="pm-toc" aria-label="Contents">
-          <span className="pm-toc-title">Contents</span>
-          {policy.sections.map(([h], i) => (
-            <a
-              key={h}
-              href={`#${policy.id}-${i}`}
-              onClick={(e) => {
-                e.preventDefault()
-                bodyRef.current?.querySelector(`#${policy.id}-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              }}
-            >
-              {h}
-            </a>
-          ))}
-        </nav>
-        <div className="pm-content">
-          <p className="pm-lead">{policy.summary}</p>
-          {policy.sections.map(([h, t], i) => (
-            <section key={h} id={`${policy.id}-${i}`} className="pm-section">
-              <h4>{h}</h4>
-              <p>{t}</p>
-            </section>
-          ))}
-        </div>
+      <div className="pr-scroll" ref={scrollRef} tabIndex={0}>
+        <p className="pr-intro" lang={content.lang}>
+          {content.summary}
+        </p>
+        <article key={lang} className="pr-card fade-in" lang={content.lang} aria-labelledby={hid}>
+          <div className="pr-card-head">
+            <span className={`pr-tag ${tag.tone}`}>{tag.label}</span>
+            <span className="pr-updated">
+              <CalendarDays size={13} /> Last updated {policy.updated}
+            </span>
+          </div>
+          <div className="pr-card-body">
+            {content.sections.map(([h, t]) => (
+              <section key={h} className="pr-sec">
+                <h4>{h}</h4>
+                <p>{t}</p>
+              </section>
+            ))}
+          </div>
+        </article>
       </div>
       <footer className="pm-foot">
         <span className="pm-foot-note">

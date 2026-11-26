@@ -43,7 +43,7 @@
 .kebab, .icon-btn, .modal-close { transition: background-color 0.15s var(--ease-out), color 0.15s var(--ease-out); }
 
 /* Modal content settles in just after the dialog */
-.modal-body, .nm-body, .pm-body { animation: riseIn 0.32s 0.05s var(--ease-out) both; }
+.modal-body, .nm-body, .pr-scroll { animation: riseIn 0.32s 0.05s var(--ease-out) both; }
 
 /* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
